@@ -9,7 +9,9 @@ public class TaskList {
 
     public void addTask(Task t) {
         tasks.add(t);
-        System.out.println("added: " + t.getName());
+        System.out.println("Added the following task:");
+        System.out.println("\t" + t.toString());
+        System.out.println("You have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in your list.");
         return;
     }
 
