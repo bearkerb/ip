@@ -1,5 +1,5 @@
 public class ToDoEmptyException extends LucidException {
-    public ToDoEmptyException(String message) {
-        super(message);
+    public ToDoEmptyException() {
+        super("You can't do that! A todo can't have an empty description!");
     }
 }

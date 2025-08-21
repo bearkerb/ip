@@ -40,16 +40,22 @@ public class Parser {
                     taskList.uncompleteTask(Integer.parseInt(taskIndex));
                 } else if (firstWord.equals("todo")) {
                     if (remainingWords.equals("todo") || remainingWords.isEmpty()) {
-                        throw new ToDoEmptyException("You can't do that! A todo can't have an empty description!");
+                        throw new ToDoEmptyException();
                     }
                     taskList.addTask(new ToDo(remainingWords));
                 } else if (firstWord.equals("deadline")) {
+                    if (!userInput.contains("/by")) {
+                        throw new DeadlineUsageException();
+                    }
                     String[] args = remainingWords.split("/by");
                     String name = args[0].trim();
                     String due = args[1].trim();
 
                     taskList.addTask(new Deadline(name, due));
                 } else if (firstWord.equals("event")) {
+                    if (!userInput.contains("/from") || !userInput.contains("/to")) {
+                        throw new EventUsageException();
+                    }
                     String[] args = remainingWords.split("/from");
                     String name = args[0].trim();
                     String[] times = args[1].split("/to");
@@ -58,7 +64,7 @@ public class Parser {
 
                     taskList.addTask((new Event(name, start, end)));
                 } else {
-                    throw new UnknownCommandException("Sorry, I don't get what you are saying.");
+                    throw new UnknownCommandException();
                 }
             } catch (LucidException e) {
                 System.out.println(e.getMessage());
