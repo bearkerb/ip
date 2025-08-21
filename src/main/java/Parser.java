@@ -63,6 +63,11 @@ public class Parser {
                     String end = times[1].trim();
 
                     taskList.addTask((new Event(name, start, end)));
+                } else if (firstWord.equals("delete")) {
+                    if (remainingWords.equals("delete") || remainingWords.isEmpty()) {
+                        throw new DeleteUsageException();
+                    }
+                    taskList.deleteTask(Integer.parseInt(remainingWords));
                 } else {
                     throw new UnknownCommandException();
                 }

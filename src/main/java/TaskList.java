@@ -33,4 +33,12 @@ public class TaskList {
         System.out.println("No problem! I've marked this task as uncompleted:");
         System.out.println("\t" + this.tasks.get(index - 1).toString());
     }
+
+    public void deleteTask(int index) {
+        System.out.println("Got it! I've removed this task for you:");
+        System.out.println("\t" + this.tasks.get(index - 1).toString());
+        this.tasks.remove(index - 1);
+        System.out.println("You have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks")
+                            + " left in your list.");
+    }
 }
