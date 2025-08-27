@@ -13,7 +13,7 @@ public class Deadline extends Task {
 
     @Override
     public String toDataString() {
-        return "E | " + (this.isComplete() ? "DONE" : "NOT DONE") + " | " + this.getName()
+        return "D | " + (this.isComplete() ? "DONE" : "NOT DONE") + " | " + this.getName()
                 + " | " + this.dueDate + "\n";
     }
 }

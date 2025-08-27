@@ -27,7 +27,6 @@ public class Task {
     public void complete() {
         if (isDone) {
             System.out.println("You sure? This task is already complete!");
-            return;
         } else {
             this.isDone = true;
         }

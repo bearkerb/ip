@@ -1,11 +1,11 @@
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks;
 
     public TaskList() {
-        this.tasks = new ArrayList<>();
+        Storage data = new Storage();
+        this.tasks = data.readData();
     }
 
     public void addTask(Task task) {

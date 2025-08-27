@@ -1,10 +1,7 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 
 public class Storage {
     File data;
@@ -60,5 +57,84 @@ public class Storage {
         } catch (IOException e) {
             System.out.println("Error creating FileWriter / editing to file, IOException: " + e.getMessage());
         }
+    }
+
+    public ArrayList<Task> readData() {
+        ArrayList<Task> tasks = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(this.data));
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                String[] args = currentLine.split("\\|");
+                String type = args[0].trim();
+                switch (type) {
+                case ("T") :
+                    if (args.length != 3) {
+                        System.out.println("Something went wrong reading data");
+                        break;
+                    }
+                    tasks.add(lineToToDo(currentLine));
+                    break;
+
+                case ("D") :
+                    if (args.length != 4) {
+                        System.out.println("Something went wrong reading deadline data");
+                        break;
+                    }
+                    tasks.add(lineToDeadline(currentLine));
+                    break;
+
+                case ("E") :
+                    if (args.length != 5) {
+                        System.out.println("Something went wrong reading data");
+                        break;
+                    }
+                    tasks.add(lineToEvent(currentLine));
+                    break;
+
+                default:
+                    System.out.println("Something went wrong...");
+                    break;
+                }
+
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Error reading file, IOException: " + e.getMessage());
+        }
+        return tasks;
+    }
+
+    public ToDo lineToToDo(String line) {
+        String[] args = line.split("\\|");
+        String taskName = args[2].trim();
+        ToDo todo = new ToDo(taskName);
+        if (args[1].trim().equals("DONE")) {
+            todo.complete();
+        }
+        return todo;
+    }
+
+    public Deadline lineToDeadline(String line) {
+        String[] args = line.split("\\|");
+        String taskName = args[2].trim();
+        String dueDate = args[3].trim();
+        Deadline deadline = new Deadline(taskName, dueDate);
+        if (args[1].trim().equals("DONE")) {
+            deadline.complete();
+        }
+        return deadline;
+    }
+
+    public Event lineToEvent(String line) {
+        String[] args = line.split("\\|");
+        String taskName = args[2].trim();
+        String start = args[3].trim();
+        String end = args[4].trim();
+        Event event = new Event(taskName, start, end);
+        if (args[1].trim().equals("DONE")) {
+            event.complete();
+        }
+        return event;
     }
 }

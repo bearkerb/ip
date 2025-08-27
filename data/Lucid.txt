@@ -1,1 +1,8 @@
 T | NOT DONE | slayer
+T | NOT DONE | rat
+T | NOT DONE | rat
+T | NOT DONE | nig
+E | NOT DONE | ahh | 12 | 2
+T | NOT DONE | rat
+D | NOT DONE | slayer | tmr
+E | NOT DONE | asd | 123 | 456
