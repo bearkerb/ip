@@ -1,10 +1,25 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 
 public class Parser {
     public static void parse() {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         TaskList taskList = new TaskList();
+        File data = new File("./data/Lucid.txt");
+        if (!data.exists()) {
+            try {
+                if (!data.getParentFile().exists()) {
+                    System.out.println("directory does not exist, creating...");
+                    data.getParentFile().mkdirs();
+                }
+                data.createNewFile();
+            } catch (IOException e) {
+                System.out.println("error making file");
+                System.out.println("IOException: " + e.getMessage());
+            }
+        }
         while (true) {
             try {
                 userInput = scanner.nextLine();
