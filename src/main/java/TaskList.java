@@ -14,7 +14,7 @@ public class TaskList {
         System.out.println("\t" + task.toString());
         System.out.println("You have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in your list.");
         Storage data = new Storage();
-        data.appendTask(task);
+        data.appendTaskData(task);
     }
 
     public void printTasks() {
@@ -40,6 +40,8 @@ public class TaskList {
         System.out.println("Got it! I've removed this task for you:");
         System.out.println("\t" + this.tasks.get(index - 1).toString());
         this.tasks.remove(index - 1);
+        Storage data = new Storage();
+        data.deleteTaskData(index);
         System.out.println("You have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks")
                             + " left in your list.");
     }

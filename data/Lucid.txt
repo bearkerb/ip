@@ -1,14 +1,1 @@
-T | NOT DONE | rat
 T | NOT DONE | slayer
-T | NOT DONE | test
-T | NOT DONE | rat /from tmr /to friday
-E | NOT DONE | rat | tmr-friday
-T | NOT DONE | rat
-E | NOT DONE | slayer | friday 3pm
-E | NOT DONE | nig | friday 9pm-friday 10pm
-T | NOT DONE | rat
-E | NOT DONE | slayer | friday
-E | NOT DONE | nig | asd | 123
-T | NOT DONE | rat
-E | NOT DONE | slayer | tmr
-E | NOT DONE | asda | 12 | 2
