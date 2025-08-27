@@ -10,4 +10,10 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (by: " + this.dueDate + ")";
     }
+
+    @Override
+    public String toDataString() {
+        return "D | " + (this.isComplete() ? "DONE" : "NOT DONE") + " | " + this.getName()
+                + " | " + this.dueDate + "\n";
+    }
 }
