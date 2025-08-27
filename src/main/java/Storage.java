@@ -59,6 +59,54 @@ public class Storage {
         }
     }
 
+    public void completeTaskData(int index) {
+        File tempFile = new File("tempFile.txt");
+        try {
+            FileWriter tempFileWriter = new FileWriter(tempFile, true);
+            BufferedReader reader = new BufferedReader(new FileReader(this.data));
+            int row = 1;
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                if (row == index) {
+                    currentLine = currentLine.replaceFirst("NOT DONE", "DONE");
+                }
+                tempFileWriter.append(currentLine + "\n");
+                row++;
+            }
+            tempFileWriter.close();
+            reader.close();
+
+            Files.deleteIfExists(this.data.toPath());
+            Files.move(tempFile.toPath(), this.data.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println("Error creating FileWriter / editing to file, IOException: " + e.getMessage());
+        }
+    }
+
+    public void uncompleteTaskData(int index) {
+        File tempFile = new File("tempFile.txt");
+        try {
+            FileWriter tempFileWriter = new FileWriter(tempFile, true);
+            BufferedReader reader = new BufferedReader(new FileReader(this.data));
+            int row = 1;
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                if (row == index) {
+                    currentLine = currentLine.replaceFirst("DONE", "NOT DONE");
+                }
+                tempFileWriter.append(currentLine + "\n");
+                row++;
+            }
+            tempFileWriter.close();
+            reader.close();
+
+            Files.deleteIfExists(this.data.toPath());
+            Files.move(tempFile.toPath(), this.data.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println("Error creating FileWriter / editing to file, IOException: " + e.getMessage());
+        }
+    }
+
     public ArrayList<Task> readData() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -75,15 +123,13 @@ public class Storage {
                     }
                     tasks.add(lineToToDo(currentLine));
                     break;
-
                 case ("D") :
                     if (args.length != 4) {
-                        System.out.println("Something went wrong reading deadline data");
+                        System.out.println("Something went wrong reading data");
                         break;
                     }
                     tasks.add(lineToDeadline(currentLine));
                     break;
-
                 case ("E") :
                     if (args.length != 5) {
                         System.out.println("Something went wrong reading data");
@@ -91,7 +137,6 @@ public class Storage {
                     }
                     tasks.add(lineToEvent(currentLine));
                     break;
-
                 default:
                     System.out.println("Something went wrong...");
                     break;

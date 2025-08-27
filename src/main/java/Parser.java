@@ -12,6 +12,10 @@ public class Parser {
         while (true) {
             try {
                 userInput = scanner.nextLine();
+                if (userInput.contains("|")) {
+                    System.out.println("Sorry, you're not allowed to use the '|' character!");
+                    continue;
+                }
                 String firstWord = userInput.split(" ")[0];
                 int firstSpaceIndex = userInput.indexOf(' ');
                 String remainingWords = userInput.substring(firstSpaceIndex + 1);
