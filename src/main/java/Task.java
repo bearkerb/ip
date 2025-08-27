@@ -11,9 +11,17 @@ public class Task {
         return this.name;
     }
 
+    public boolean isComplete() {
+        return isDone;
+    }
+
     @Override
     public String toString() {
         return "[" + (this.isDone ? "X" : " ") + "] " + this.name;
+    }
+
+    public String toDataString() {
+        return "placeholder";
     }
 
     public void complete() {

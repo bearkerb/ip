@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -7,12 +8,13 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
-    public void addTask(Task t) {
-        tasks.add(t);
+    public void addTask(Task task) {
+        tasks.add(task);
         System.out.println("Added the following task:");
-        System.out.println("\t" + t.toString());
+        System.out.println("\t" + task.toString());
         System.out.println("You have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in your list.");
-        return;
+        Storage data = new Storage();
+        data.appendTask(task);
     }
 
     public void printTasks() {
