@@ -2,6 +2,9 @@ package lucid;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a list of Task objects, implemented with an ArrayList
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
@@ -10,6 +13,10 @@ public class TaskList {
         this.tasks = data.readData();
     }
 
+    /**
+     * Adds a task to the TaskList
+     * @param task Task to add
+     */
     public void addTask(Task task) {
         tasks.add(task);
         Ui.taskAddedMessage(task);
@@ -18,6 +25,9 @@ public class TaskList {
         data.appendTaskData(task);
     }
 
+    /**
+     * Prints all tasks currently in the list
+     */
     public void printTasks() {
         int size = this.tasks.size();
         for (int i = 1; i <= size; i++) {
@@ -25,6 +35,10 @@ public class TaskList {
         }
     }
 
+    /**
+     * Completes a task in the list
+     * @param index Index of task to complete
+     */
     public void completeTask(int index) {
         if (isInvalidIndex(index)) {
             return;
@@ -40,6 +54,10 @@ public class TaskList {
         }
     }
 
+    /**
+     * Uncompletes a task in the list
+     * @param index Index of task to uncomplete
+     */
     public void uncompleteTask(int index) {
         if (isInvalidIndex(index)) {
             return;
@@ -55,6 +73,10 @@ public class TaskList {
         }
     }
 
+    /**
+     * Deletes a task from the list
+     * @param index Index of task to delete
+     */
     public void deleteTask(int index) {
         if (isInvalidIndex(index)) {
             return;
@@ -66,6 +88,11 @@ public class TaskList {
         Ui.numberOfTasksMessage(tasks.size());
     }
 
+    /**
+     * Checks if the given index is valid for the current number of existing tasks
+     * @param index Index to check for validity
+     * @return false if index < 0 or index > TaskList size, true otherwise
+     */
     public boolean isInvalidIndex(int index) {
         if (index > tasks.size() || index <= 0) {
             Ui.invalidTaskIndexMessage();

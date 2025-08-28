@@ -2,9 +2,16 @@ package lucid;
 
 import java.util.Scanner;
 
+/**
+ * Class with static fields and methods to handle the retrieval and interpretation of user inputs
+ * Contains a TaskList to store information on existing tasks
+ */
 public class Parser {
     private static TaskList taskList = new TaskList();
 
+    /**
+     * Static method to retrieve user input and process it, calling appropriate function to handle it
+     */
     public static void parse() {
         Scanner scanner = new Scanner(System.in);
         String userInput;
@@ -44,6 +51,14 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns a String array containing separated date and time string representations of the input string
+     * If input string has no time information included, index 1 of returned array is null
+     * @param dateTimeString String containing date and time information retrieved from data file
+     *                       Has form yyyy-mm-dd (or yyyy-mm-dd-xxxx to include time)
+     * @return String array where index 0 contains date string, index 1 contains time string if any
+     * @throws DateTimeParseException if input string does not adhere to expected format
+     */
     public static String[] parseDateTimeString(String dateTimeString) throws DateTimeParseException {
         String[] dateAndTime;
         if (dateTimeString.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -56,6 +71,10 @@ public class Parser {
         return dateAndTime;
     }
 
+    /**
+     * Marks appropriate indexed task as complete
+     * @param userInput contains keyword "mark" and index of task to mark as complete
+     */
     public static void handleMarkCommand(String userInput) {
         String[] separatedInputs = userInput.split(" ");
         String taskIndex = "";
@@ -68,6 +87,10 @@ public class Parser {
         taskList.completeTask(Integer.parseInt(taskIndex));
     }
 
+    /**
+     * Marks appropriate indexed task as uncomplete
+     * @param userInput contains keyword "unmark" and index of task to mark as complete
+     */
     public static void handleUnmarkCommand(String userInput) {
         String[] separatedInputs = userInput.split(" ");
         String taskIndex = "";

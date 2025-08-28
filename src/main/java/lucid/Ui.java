@@ -30,30 +30,53 @@ public class Ui {
         System.out.println("Try again! This task isn't even complete!");
     }
 
+    /**
+     * Notifies user of addition of task to the task list
+     * @param task Task added to list
+     */
     public static void taskAddedMessage(Task task) {
         System.out.println("Added the following task:");
         System.out.println("\t" + task.toString());
     }
 
+    /**
+     * Notifies user of deletion of task from the task list
+     * @param task Task deleted from list
+     */
     public static void taskDeletedMessage(Task task) {
         System.out.println("Got it! I've removed this task for you:");
         System.out.println("\t" + task.toString());
     }
 
-    public static void numberOfTasksMessage(int index) {
-        System.out.println("You now have " + index + (index == 1 ? " task" : " tasks") + " in your list.");
+    /**
+     * Notifies user of number of tasks in the list
+     * @param numOfTasks
+     */
+    public static void numberOfTasksMessage(int numOfTasks) {
+        System.out.println("You now have " + numOfTasks + (numOfTasks == 1 ? " task" : " tasks") + " in your list.");
     }
 
+    /**
+     * Notifies user of successful marking of task as complete
+     * @param task Task to mark as complete
+     */
     public static void taskCompletedMessage(Task task) {
         System.out.println("Alright. I've marked this task as completed for you:");
         System.out.println("\t" + task.toString());
     }
 
+    /**
+     * Notifies user of successful marking of task as uncomplete
+     * @param task Task to mark as uncomplete
+     */
     public static void taskUncompletedMessage(Task task) {
         System.out.println("No problem, I've marked this task as uncompleted for you:");
         System.out.println("\t" + task.toString());
     }
 
+    /**
+     * Notifies user that they have entered an invalid task index
+     */
     public static void invalidTaskIndexMessage() {
         System.out.println("I can't find the task you're talking about! Did you make a typo?");
     }
