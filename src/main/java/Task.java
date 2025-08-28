@@ -26,7 +26,7 @@ public class Task {
 
     public void complete() {
         if (isDone) {
-            System.out.println("You sure? This task is already complete!");
+            Ui.taskAlreadyCompletedMessage();
         } else {
             this.isDone = true;
         }
@@ -34,7 +34,7 @@ public class Task {
 
     public void uncomplete() {
         if (!isDone) {
-            System.out.println("Try again! This task isn't even complete!");
+            Ui.taskNotCompletedYetMessage();
             return;
         } else {
             this.isDone = false;
