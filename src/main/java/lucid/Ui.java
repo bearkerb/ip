@@ -81,8 +81,10 @@ public class Ui {
         System.out.println("I can't find the task you're talking about! Did you make a typo?");
     }
 
-    public static void printTaskInList(int index, Task task) {
+    public static void tasksFoundMessage() {
+        System.out.println("Here are the tasks I've found that match what you're looking for:");
+    }
+    public static void printTaskInFoundList(int index, Task task) {
         System.out.println(index + ". " + task.toString());
-
     }
 }

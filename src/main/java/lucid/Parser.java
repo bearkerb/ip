@@ -34,6 +34,8 @@ public class Parser {
                     handleMarkCommand(userInput);
                 } else if (firstWord.equals("unmark")) {
                     handleUnmarkCommand(userInput);
+                } else if (firstWord.equals("find")) {
+                    handleFindCommand(userInput);
                 } else if (firstWord.equals("todo")) {
                     handleToDoCommand(userInput);
                 } else if (firstWord.equals("deadline")) {
@@ -156,5 +158,14 @@ public class Parser {
             throw new DeleteUsageException();
         }
         taskList.deleteTask(Integer.parseInt(remainingWords));
+    }
+
+    public static void handleFindCommand(String userInput) throws FindUsageException {
+        int firstSpaceIndex = userInput.indexOf(' ');
+        String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
+        if (remainingInput.equals("find") || remainingInput.isEmpty()) {
+            throw new FindUsageException();
+        }
+        taskList.findAndPrintTasks(remainingInput.trim());
     }
 }

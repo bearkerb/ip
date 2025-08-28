@@ -32,7 +32,7 @@ public class TaskList {
     public void printTasks() {
         int size = this.tasks.size();
         for (int i = 1; i <= size; i++) {
-            Ui.printTaskInList(i, this.tasks.get(i - 1));
+            Ui.printTaskInFoundList(i, this.tasks.get(i - 1));
         }
     }
 
@@ -100,5 +100,16 @@ public class TaskList {
             return true;
         }
         return false;
+    }
+
+    public void findAndPrintTasks(String s) {
+        int count = 1;
+        Ui.tasksFoundMessage();
+        for (Task t : tasks) {
+            if (t.getName().contains(s)) {
+                Ui.printTaskInFoundList(count, t);
+                count++;
+            }
+        }
     }
 }
