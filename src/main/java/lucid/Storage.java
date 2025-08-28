@@ -1,6 +1,10 @@
 package lucid;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -143,21 +147,21 @@ public class Storage {
                 String[] args = currentLine.split("\\|");
                 String type = args[0].trim();
                 switch (type) {
-                case ("T") :
+                case ("T"):
                     if (args.length != 3) {
                         Ui.readDataErrorMessage();
                         break;
                     }
                     tasks.add(lineToToDo(currentLine));
                     break;
-                case ("D") :
+                case ("D"):
                     if (args.length != 4) {
                         Ui.readDataErrorMessage();
                         break;
                     }
                     tasks.add(lineToDeadline(currentLine));
                     break;
-                case ("E") :
+                case ("E"):
                     if (args.length != 5) {
                         Ui.readDataErrorMessage();
                         break;
@@ -185,6 +189,7 @@ public class Storage {
     public ToDo lineToToDo(String line) {
         String[] args = line.split("\\|");
         String taskName = args[2].trim();
+
         ToDo todo = new ToDo(taskName);
         if (args[1].trim().equals("DONE")) {
             todo.complete();
@@ -200,6 +205,7 @@ public class Storage {
         String[] args = line.split("\\|");
         String taskName = args[2].trim();
         String due = args[3].trim();
+
         Deadline deadline;
         try {
             String[] dateTime = Parser.parseDateTimeString(due);
@@ -227,6 +233,7 @@ public class Storage {
         String taskName = args[2].trim();
         String start = args[3].trim();
         String end = args[4].trim();
+
         Event event = new Event(taskName, start, end);
         if (args[1].trim().equals("DONE")) {
             event.complete();

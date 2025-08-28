@@ -141,9 +141,11 @@ public class Parser {
 
         String[] args = remainingInput.split("/from");
         String name = args[0].trim();
+
         String[] times = args[1].split("/to");
         String start = times[0].trim();
         String end = times[1].trim();
+
         taskList.addTask((new Event(name, start, end)));
     }
 

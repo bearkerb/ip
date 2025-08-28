@@ -21,6 +21,7 @@ public class TaskList {
         tasks.add(task);
         Ui.taskAddedMessage(task);
         Ui.numberOfTasksMessage(tasks.size());
+
         Storage data = new Storage();
         data.appendTaskData(task);
     }
