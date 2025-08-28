@@ -1,3 +1,5 @@
+package lucid;
+
 import java.util.ArrayList;
 
 public class TaskList {

@@ -1,3 +1,5 @@
+package lucid;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -7,7 +9,7 @@ public class Storage {
     File data;
 
     public Storage() {
-        this.data = new File("./data/Lucid.txt");
+        this.data = new File("./data/Lucid.Lucid.txt");
         if (!this.data.exists()) {
             try {
                 if (!this.data.getParentFile().exists()) {

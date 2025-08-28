@@ -1,3 +1,5 @@
+package lucid;
+
 public class DeadlineUsageException extends LucidException {
     public DeadlineUsageException() {
         super("Looks like you've used the deadline command incorrectly!\n"
