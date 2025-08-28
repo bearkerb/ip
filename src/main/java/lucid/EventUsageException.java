@@ -1,3 +1,5 @@
+package lucid;
+
 public class EventUsageException extends LucidException {
     public EventUsageException() {
         super("Looks like you've used the event command incorrectly!\n"

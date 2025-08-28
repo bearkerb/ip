@@ -1,3 +1,5 @@
+package lucid;
+
 public class ToDoEmptyException extends LucidException {
     public ToDoEmptyException() {
         super("You can't do that! A todo can't have an empty description!");

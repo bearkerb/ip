@@ -1,4 +1,4 @@
-Hello! I'm Lucid.
+Hello! I'm lucid.lucid.
 How can I help you?
 Added the following task:
         [T][ ] borrow book

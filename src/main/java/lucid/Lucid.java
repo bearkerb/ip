@@ -1,3 +1,4 @@
+package lucid;
 
 public class Lucid {
     public void run() {
