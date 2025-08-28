@@ -11,12 +11,11 @@ public class Storage {
         if (!this.data.exists()) {
             try {
                 if (!this.data.getParentFile().exists()) {
-                    System.out.println("directory does not exist, creating...");
+                    Ui.firstTimeUserMessage();
                     this.data.getParentFile().mkdirs();
                 }
                 this.data.createNewFile();
             } catch (IOException e) {
-                System.out.println("error making file");
                 System.out.println("IOException: " + e.getMessage());
             }
         }
@@ -118,27 +117,27 @@ public class Storage {
                 switch (type) {
                 case ("T") :
                     if (args.length != 3) {
-                        System.out.println("Something went wrong reading data");
+                        Ui.readDataErrorMessage();
                         break;
                     }
                     tasks.add(lineToToDo(currentLine));
                     break;
                 case ("D") :
                     if (args.length != 4) {
-                        System.out.println("Something went wrong reading data");
+                        Ui.readDataErrorMessage();
                         break;
                     }
                     tasks.add(lineToDeadline(currentLine));
                     break;
                 case ("E") :
                     if (args.length != 5) {
-                        System.out.println("Something went wrong reading data");
+                        Ui.readDataErrorMessage();
                         break;
                     }
                     tasks.add(lineToEvent(currentLine));
                     break;
                 default:
-                    System.out.println("Something went wrong...");
+                    Ui.readDataErrorMessage();
                     break;
                 }
 
