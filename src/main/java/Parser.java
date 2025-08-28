@@ -1,7 +1,4 @@
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Parser {
     public static void parse() {
@@ -38,7 +35,6 @@ public class Parser {
                 } else if (firstWord.equals("unmark")) {
                     String[] separatedInputs = userInput.split(" ");
                     String taskIndex = "";
-
                     for (int i = 1; i < separatedInputs.length; i++) {
                         taskIndex += separatedInputs[i];
                         if (i != separatedInputs.length - 1) {
@@ -59,16 +55,26 @@ public class Parser {
                     String name = args[0].trim();
                     String due = args[1].trim();
 
-                    taskList.addTask(new Deadline(name, due));
+                    if (due.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                        taskList.addTask(new Deadline(name, due));
+                    } else if (due.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
+                        taskList.addTask((new Deadline(name, due.substring(0, 10), due.substring(11))));
+                    } else {
+                        throw new DeadlineUsageException();
+                    }
+
+
                 } else if (firstWord.equals("event")) {
                     if (!userInput.contains("/from") || !userInput.contains("/to")) {
                         throw new EventUsageException();
                     }
+
                     String[] args = remainingWords.split("/from");
                     String name = args[0].trim();
                     String[] times = args[1].split("/to");
                     String start = times[0].trim();
                     String end = times[1].trim();
+
 
                     taskList.addTask((new Event(name, start, end)));
                 } else if (firstWord.equals("delete")) {
@@ -83,5 +89,17 @@ public class Parser {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    public static String[] parseDateTimeString(String dateTimeString) throws DateTimeParseException {
+        String[] dateAndTime;
+        if (dateTimeString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            dateAndTime = new String[] {dateTimeString, null};
+        } else if (dateTimeString.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
+            dateAndTime = new String[] {dateTimeString.substring(0, 10), dateTimeString.substring(11)};
+        } else {
+            throw new DateTimeParseException();
+        }
+        return dateAndTime;
     }
 }

@@ -163,8 +163,19 @@ public class Storage {
     public Deadline lineToDeadline(String line) {
         String[] args = line.split("\\|");
         String taskName = args[2].trim();
-        String dueDate = args[3].trim();
-        Deadline deadline = new Deadline(taskName, dueDate);
+        String due = args[3].trim();
+        Deadline deadline;
+        try {
+            String[] dateTime = Parser.parseDateTimeString(due);
+            if (dateTime[1] == null) {
+                deadline = new Deadline(taskName, dateTime[0]);
+            } else {
+                deadline = new Deadline(taskName, dateTime[0], dateTime[1]);
+            }
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException(e);
+        }
+
         if (args[1].trim().equals("DONE")) {
             deadline.complete();
         }
