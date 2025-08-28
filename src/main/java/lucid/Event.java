@@ -3,7 +3,10 @@ package lucid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * An event with a start and an end, represented by two LocalDates for start and end dates
+ * and two LocalTimes if needed for start and end timings
+ */
 public class Event extends Task {
     private LocalDate startDate;
     private LocalDate endDate;
@@ -44,6 +47,12 @@ public class Event extends Task {
                 + this.endTime.format(DateTimeFormatter.ofPattern("HHmm"))) + "\n";
     }
 
+    /**
+     * Returns string representation of date and time parameters
+     * @param date date to convert to string
+     * @param time time to convert to string
+     * @return string representation of date and time together
+     */
     public String dateTimeToString(LocalDate date, LocalTime time) {
         return date.getMonth() + " " + date.getDayOfMonth() + " " + date.getYear() + (time == null ? "" : " " + time);
     }
