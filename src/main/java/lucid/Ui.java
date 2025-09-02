@@ -1,6 +1,12 @@
 package lucid;
 
+/**
+ * Class to handle text output to user
+ */
 public class Ui {
+    /**
+     * Opening message that greets user when launching the program
+     */
     public static void introduction() {
         System.out.println("Hello! I'm Lucid.Lucid.\nHow can I help you?");
         System.out.println("Just to let you know, I hate the '|' character, so don't use it when talking to me!");

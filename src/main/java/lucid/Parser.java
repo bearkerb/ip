@@ -105,6 +105,11 @@ public class Parser {
         taskList.uncompleteTask(Integer.parseInt(taskIndex));
     }
 
+    /**
+     * Adds a todo to list of tasks
+     * @param userInput String containing command and name of task
+     * @throws ToDoEmptyException Exception resulting from incorrect string format
+     */
     public static void handleToDoCommand(String userInput) throws ToDoEmptyException {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
@@ -114,6 +119,11 @@ public class Parser {
         taskList.addTask(new ToDo(remainingInput));
     }
 
+    /**
+     * Adds a deadline to list of tasks
+     * @param userInput String containing command and information of deadline task
+     * @throws DeadlineUsageException Exception resulting from incorrect string format
+     */
     public static void handleDeadlineCommand(String userInput) throws DeadlineUsageException {
         if (!userInput.contains("/by")) {
             throw new DeadlineUsageException();
@@ -134,6 +144,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Adds an event to list of tasks
+     * @param userInput String containing command and information of event task
+     * @throws EventUsageException Exception resulting from incorrect string format
+     */
     public static void handleEventCommand(String userInput) throws EventUsageException {
         if (!userInput.contains("/from") || !userInput.contains("/to")) {
             throw new EventUsageException();
@@ -151,6 +166,11 @@ public class Parser {
         taskList.addTask((new Event(name, start, end)));
     }
 
+    /**
+     * Deletes a task from the list of tasks
+     * @param userInput index of task (according to list) to delete
+     * @throws DeleteUsageException Exception resulting from incorrect usage
+     */
     public static void handleDeleteCommand(String userInput) throws DeleteUsageException {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingWords = userInput.substring(firstSpaceIndex + 1);
@@ -160,6 +180,11 @@ public class Parser {
         taskList.deleteTask(Integer.parseInt(remainingWords));
     }
 
+    /**
+     * Searches and prints tasks that suit the user input
+     * @param userInput String containing command and name substring to search for
+     * @throws FindUsageException
+     */
     public static void handleFindCommand(String userInput) throws FindUsageException {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();

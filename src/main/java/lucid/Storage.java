@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Class to handle the saving and updating of data when changes are made to the task list
  */
 public class Storage {
-    File data;
+    private File data;
 
     /**
      * Constructor to initialize the storage, creates a new data folder for data file if it does not already exist
