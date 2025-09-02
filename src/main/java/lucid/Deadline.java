@@ -1,7 +1,9 @@
 package lucid;
-import java.time.format.DateTimeFormatter;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 
 /**
  * A task with a deadline, represented by a LocalDate and LocalTime (if needed)
@@ -10,11 +12,22 @@ public class Deadline extends Task {
     private LocalDate dueDate;
     private LocalTime dueTime;
 
+    /**
+     * Creates a deadline with the specified characteristics
+     * @param name String containing name of the deadline
+     * @param dueDate String containing formation of the due date
+     */
     public Deadline(String name, String dueDate) {
         super(name);
         this.dueDate = LocalDate.parse(dueDate);
     }
 
+    /**
+     * Creates a deadline with the specified characteristics
+     * @param name String containing name of the deadline
+     * @param dueDate String containing the due date
+     * @param dueTime String containing the due time
+     */
     public Deadline(String name, String dueDate, String dueTime) {
         super(name);
         this.dueDate = LocalDate.parse(dueDate);

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class TaskList {
     private ArrayList<Task> tasks;
 
+    /**
+     * Initialises the tasklist according to a data file. If no data file is present, creates a new empty task list
+     */
     public TaskList() {
         Storage data = new Storage();
         this.tasks = data.readData();
@@ -102,6 +105,10 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * Finds task names containing a substring and prints them
+     * @param s Substring to search for in task names
+     */
     public void findAndPrintTasks(String s) {
         int count = 1;
         Ui.tasksFoundMessage();

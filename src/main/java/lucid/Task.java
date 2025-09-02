@@ -1,9 +1,16 @@
 package lucid;
 
+/**
+ * Stores basic task information including name and completion status
+ */
 public class Task {
     private String name;
     private boolean isDone;
 
+    /**
+     * Creates a incomplete task with the specified name
+     * @param s String containing task name
+     */
     public Task(String s) {
         this.name = s;
         this.isDone = false;
@@ -26,6 +33,9 @@ public class Task {
         return "placeholder";
     }
 
+    /**
+     * Marks task as complete
+     */
     public void complete() {
         if (isDone) {
             Ui.taskAlreadyCompletedMessage();
@@ -34,6 +44,9 @@ public class Task {
         }
     }
 
+    /**
+     * Marks task as not complete
+     */
     public void uncomplete() {
         if (!isDone) {
             Ui.taskNotCompletedYetMessage();

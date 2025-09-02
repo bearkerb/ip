@@ -13,6 +13,12 @@ public class Event extends Task {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    /**
+     * Creates an event with the specified characteristics
+     * @param name String containing name of the event
+     * @param start String specifying event start date and time
+     * @param end String specifying event end date and time
+     */
     public Event(String name, String start, String end) {
         super(name);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
