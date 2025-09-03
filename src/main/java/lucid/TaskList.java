@@ -20,41 +20,45 @@ public class TaskList {
      * Adds a task to the TaskList
      * @param task Task to add
      */
-    public void addTask(Task task) {
+    public String addTask(Task task) {
         tasks.add(task);
-        Ui.taskAddedMessage(task);
-        Ui.numberOfTasksMessage(tasks.size());
+        String out = "";
+        out += Ui.taskAddedMessage(task);
+        out += Ui.numberOfTasksMessage(tasks.size());
 
         Storage data = new Storage();
         data.appendTaskData(task);
+        return out;
     }
 
     /**
      * Prints all tasks currently in the list
      */
-    public void printTasks() {
+    public String printTasks() {
         int size = this.tasks.size();
+        String out = "";
         for (int i = 1; i <= size; i++) {
-            Ui.printTaskInFoundList(i, this.tasks.get(i - 1));
+            out += Ui.printTaskInFoundList(i, this.tasks.get(i - 1)) + "\n";
         }
+        return out;
     }
 
     /**
      * Completes a task in the list
      * @param index Index of task to complete
      */
-    public void completeTask(int index) {
+    public String completeTask(int index) {
         if (isInvalidIndex(index)) {
-            return;
+            return "Invalid index detected.";
         }
         Task task = this.tasks.get(index - 1);
         if (task.isComplete()) {
-            Ui.taskAlreadyCompletedMessage();
+            return Ui.taskAlreadyCompletedMessage();
         } else {
             Storage data = new Storage();
             task.complete();
             data.completeTaskData(index);
-            Ui.taskCompletedMessage(task);
+            return Ui.taskCompletedMessage(task);
         }
     }
 
@@ -62,18 +66,18 @@ public class TaskList {
      * Uncompletes a task in the list
      * @param index Index of task to uncomplete
      */
-    public void uncompleteTask(int index) {
+    public String uncompleteTask(int index) {
         if (isInvalidIndex(index)) {
-            return;
+            return "Invalid index detected.";
         }
         Task task = this.tasks.get(index - 1);
         if (!task.isComplete()) {
-            Ui.taskNotCompletedYetMessage();
+            return Ui.taskNotCompletedYetMessage();
         } else {
             Storage data = new Storage();
             task.uncomplete();
             data.uncompleteTaskData(index);
-            Ui.taskUncompletedMessage(task);
+            return Ui.taskUncompletedMessage(task);
         }
     }
 
@@ -81,15 +85,17 @@ public class TaskList {
      * Deletes a task from the list
      * @param index Index of task to delete
      */
-    public void deleteTask(int index) {
+    public String deleteTask(int index) {
         if (isInvalidIndex(index)) {
-            return;
+            return "Invalid index detected";
         }
-        Ui.taskDeletedMessage(this.tasks.get(index - 1));
+        String out = "";
+        out += Ui.taskDeletedMessage(this.tasks.get(index - 1));
         this.tasks.remove(index - 1);
         Storage data = new Storage();
         data.deleteTaskData(index);
-        Ui.numberOfTasksMessage(tasks.size());
+        out += Ui.numberOfTasksMessage(tasks.size());
+        return out;
     }
 
     /**
@@ -109,14 +115,16 @@ public class TaskList {
      * Finds task names containing a substring and prints them
      * @param s Substring to search for in task names
      */
-    public void findAndPrintTasks(String s) {
+    public String findAndPrintTasks(String s) {
         int count = 1;
-        Ui.tasksFoundMessage();
+        String out = "";
+        out += Ui.tasksFoundMessage();
         for (Task t : tasks) {
             if (t.getName().contains(s)) {
-                Ui.printTaskInFoundList(count, t);
+                out += Ui.printTaskInFoundList(count, t);
                 count++;
             }
         }
+        return out;
     }
 }
