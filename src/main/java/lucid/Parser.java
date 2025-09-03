@@ -1,7 +1,5 @@
 package lucid;
 
-import java.util.Scanner;
-
 /**
  * Class with static fields and methods to handle the retrieval and interpretation of user inputs
  * Contains a TaskList to store information on existing tasks
@@ -12,48 +10,7 @@ public class Parser {
     /**
      * Static method to retrieve user input and process it, calling appropriate function to handle it
      */
-//    public static void parse() {
-//        Scanner scanner = new Scanner(System.in);
-//        String userInput;
-//
-//        while (true) {
-//            try {
-//                userInput = scanner.nextLine();
-//                if (userInput.contains("|")) {
-//                    Ui.invalidCharacterDetectedMessage();
-//                    continue;
-//                }
-//                String firstWord = userInput.split(" ")[0];
-//
-//                if (userInput.equals("bye")) {
-//                    Ui.farewell();
-//                    return;
-//                } else if (userInput.equals("list")) {
-//                    taskList.printTasks();
-//                } else if (firstWord.equals("mark")) {
-//                    handleMarkCommand(userInput);
-//                } else if (firstWord.equals("unmark")) {
-//                    handleUnmarkCommand(userInput);
-//                } else if (firstWord.equals("find")) {
-//                    handleFindCommand(userInput);
-//                } else if (firstWord.equals("todo")) {
-//                    handleToDoCommand(userInput);
-//                } else if (firstWord.equals("deadline")) {
-//                    handleDeadlineCommand(userInput);
-//                } else if (firstWord.equals("event")) {
-//                    handleEventCommand(userInput);
-//                } else if (firstWord.equals("delete")) {
-//                    handleDeleteCommand(userInput);
-//                } else {
-//                    throw new UnknownCommandException();
-//                }
-//            } catch (LucidException e) {
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//    }
-
-    public static String parse2(String userInput) {
+    public static String parse(String userInput) {
 
         try {
             if (userInput.contains("|")) {
@@ -116,16 +73,13 @@ public class Parser {
      *
      * @param userInput contains keyword "mark" and index of task to mark as complete
      */
-    public static String handleMarkCommand(String userInput) {
-        String[] separatedInputs = userInput.split(" ");
-        String taskIndex = "";
-        for (int i = 1; i < separatedInputs.length; i++) {
-            taskIndex += separatedInputs[i];
-            if (i != separatedInputs.length - 1) {
-                taskIndex += " ";
-            }
+    public static String handleMarkCommand(String userInput) throws MarkUsageException {
+        int firstSpaceIndex = userInput.indexOf(' ');
+        String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
+        if (remainingInput.equals("mark") || remainingInput.isEmpty()) {
+            throw new MarkUsageException();
         }
-        return taskList.completeTask(Integer.parseInt(taskIndex));
+        return taskList.completeTask(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -133,16 +87,13 @@ public class Parser {
      *
      * @param userInput contains keyword "unmark" and index of task to mark as complete
      */
-    public static String handleUnmarkCommand(String userInput) {
-        String[] separatedInputs = userInput.split(" ");
-        String taskIndex = "";
-        for (int i = 1; i < separatedInputs.length; i++) {
-            taskIndex += separatedInputs[i];
-            if (i != separatedInputs.length - 1) {
-                taskIndex += " ";
-            }
+    public static String handleUnmarkCommand(String userInput) throws UnmarkUsageException {
+        int firstSpaceIndex = userInput.indexOf(' ');
+        String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
+        if (remainingInput.equals("unmark") || remainingInput.isEmpty()) {
+            throw new UnmarkUsageException();
         }
-        return taskList.uncompleteTask(Integer.parseInt(taskIndex));
+        return taskList.uncompleteTask(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -174,6 +125,9 @@ public class Parser {
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
 
         String[] args = remainingInput.split("/by");
+        if (args.length == 0 || args.length == 1) {
+            throw new DeadlineUsageException();
+        }
         String name = args[0].trim();
         if (name.isEmpty()) {
             throw new DeadlineUsageException();
@@ -203,15 +157,24 @@ public class Parser {
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
 
         String[] args = remainingInput.split("/from");
+        if (args.length < 2) {
+            throw new EventUsageException();
+        }
+
         String name = args[0].trim();
         if (name.isEmpty()) {
             throw new EventUsageException();
         }
 
         String[] times = args[1].split("/to");
+        if (times.length < 2) {
+            throw new EventUsageException();
+        }
         String start = times[0].trim();
         String end = times[1].trim();
-
+        if (!isCorrectDateTimeFormat(start) || !isCorrectDateTimeFormat(end)) {
+            throw new EventUsageException();
+        }
         return taskList.addTask((new Event(name, start, end)));
     }
 
@@ -243,5 +206,20 @@ public class Parser {
             throw new FindUsageException();
         }
         return taskList.findAndPrintTasks(remainingInput.trim());
+    }
+
+    /**
+     * Checks if a string is appropriately formatted for event and deadline creation
+     * @param s String containing date and time information
+     * @return true if proper format, false otherwise
+     */
+    public static boolean isCorrectDateTimeFormat(String s) {
+        if (s.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            return true;
+        } else if (s.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

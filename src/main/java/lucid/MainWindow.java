@@ -1,5 +1,9 @@
 package lucid;
 
+// Reused from JavaFX tutorial
+
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -7,7 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
+/**
+ * Class that controls layout and handles user inputs in the GUI
+ */
 public class MainWindow extends AnchorPane {
 
     @FXML
@@ -21,7 +29,10 @@ public class MainWindow extends AnchorPane {
 
     private Lucid lucid;
 
+    // User image by Satoyu0704, edited using AI Ease to remove background
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
+
+    // Image by Nexon, retrieved from Maplestory Wiki
     private Image lucidImage = new Image(this.getClass().getResourceAsStream("/images/Lucid.png"));
 
     @FXML
@@ -47,6 +58,12 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(userText, userImage),
                 DialogBox.getLucidDialog(lucidText, lucidImage)
         );
+        if (userText.equals("bye")) {
+            // Pause for 1 second after displaying farewell message before closing application
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
+        }
         userInput.clear();
     }
 }

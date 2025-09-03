@@ -1,5 +1,6 @@
 package lucid;
 
+// Reused from JavaFX tutorial
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -8,9 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
+/**
+ * Class to start JavaFX GUI
+ */
 public class Main extends Application {
-
     private Lucid lucid = new Lucid();
 
     @Override
@@ -20,6 +22,9 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setMinHeight(220);
+            stage.setMinWidth(417);
+
             fxmlLoader.<MainWindow>getController().setLucid(lucid); // inject the Lucid instance
             stage.show();
         } catch (IOException e) {
