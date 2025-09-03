@@ -121,7 +121,7 @@ public class TaskList {
         out += Ui.tasksFoundMessage();
         for (Task t : tasks) {
             if (t.getName().contains(s)) {
-                out += Ui.printTaskInFoundList(count, t);
+                out += "\n" + Ui.printTaskInFoundList(count, t);
                 count++;
             }
         }

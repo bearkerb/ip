@@ -74,7 +74,7 @@ public class Ui {
      */
     public static String numberOfTasksMessage(int numOfTasks) {
         System.out.println("You now have " + numOfTasks + (numOfTasks == 1 ? " task" : " tasks") + " in your list.");
-        return "You now have " + numOfTasks + (numOfTasks == 1 ? " task" : " tasks") + " in your list.";
+        return "\nYou now have " + numOfTasks + (numOfTasks == 1 ? " task" : " tasks") + " in your list.";
     }
 
     /**

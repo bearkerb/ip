@@ -175,6 +175,9 @@ public class Parser {
 
         String[] args = remainingInput.split("/by");
         String name = args[0].trim();
+        if (name.isEmpty()) {
+            throw new DeadlineUsageException();
+        }
         String due = args[1].trim();
 
         if (due.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -201,6 +204,9 @@ public class Parser {
 
         String[] args = remainingInput.split("/from");
         String name = args[0].trim();
+        if (name.isEmpty()) {
+            throw new EventUsageException();
+        }
 
         String[] times = args[1].split("/to");
         String start = times[0].trim();
