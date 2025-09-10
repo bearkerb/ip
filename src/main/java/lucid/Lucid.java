@@ -18,6 +18,7 @@ public class Lucid {
             String reply = getResponse(userInput);
             System.out.println(reply);
             if (userInput.equals("bye")) {
+                scanner.close();
                 return;
             }
         }

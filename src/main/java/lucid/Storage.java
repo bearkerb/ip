@@ -24,9 +24,11 @@ public class Storage {
             try {
                 if (!this.data.getParentFile().exists()) {
                     Ui.firstTimeUserMessage();
-                    this.data.getParentFile().mkdirs();
+                    boolean successfulDirectoryCreation = this.data.getParentFile().mkdirs();
+                    assert successfulDirectoryCreation : "parent directory should be created";
                 }
-                this.data.createNewFile();
+                boolean successfulFileCreation = this.data.createNewFile();
+                assert  successfulFileCreation : "data file should be created";
             } catch (IOException e) {
                 System.out.println("IOException: " + e.getMessage());
             }
@@ -55,6 +57,7 @@ public class Storage {
      */
     public void deleteTaskData(int index) {
         File tempFile = new File("tempFile.txt");
+        assert tempFile.exists() : "cannot write to null tempFile";
         try {
             FileWriter tempFileWriter = new FileWriter(tempFile, true);
             BufferedReader reader = new BufferedReader(new FileReader(this.data));
@@ -188,6 +191,7 @@ public class Storage {
      */
     public ToDo lineToToDo(String line) {
         String[] args = line.split("\\|");
+        assert args.length == 3 : "todo data must have 3 parts";
         String taskName = args[2].trim();
 
         ToDo todo = new ToDo(taskName);
@@ -203,6 +207,8 @@ public class Storage {
      */
     public Deadline lineToDeadline(String line) {
         String[] args = line.split("\\|");
+        assert args.length == 4 : "deadline data must have 4 parts";
+
         String taskName = args[2].trim();
         String due = args[3].trim();
 
@@ -230,6 +236,8 @@ public class Storage {
      */
     public Event lineToEvent(String line) {
         String[] args = line.split("\\|");
+        assert args.length == 5 : "event data must have 5 parts";
+
         String taskName = args[2].trim();
         String start = args[3].trim();
         String end = args[4].trim();
