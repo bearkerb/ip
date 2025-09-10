@@ -36,7 +36,7 @@ public class Task {
     /**
      * Marks task as complete
      */
-    public void complete() {
+    public void markAsComplete() {
         if (isDone) {
             Ui.taskAlreadyCompletedMessage();
         } else {
@@ -47,7 +47,7 @@ public class Task {
     /**
      * Marks task as not complete
      */
-    public void uncomplete() {
+    public void markAsNotComplete() {
         if (!isDone) {
             Ui.taskNotCompletedYetMessage();
             return;

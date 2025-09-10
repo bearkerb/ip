@@ -82,7 +82,7 @@ public class Storage {
      * Edits data file to mark task as complete
      * @param index Position of task in list or row of data file to mark as complete
      */
-    public void completeTaskData(int index) {
+    public void markTaskDataComplete(int index) {
         File tempFile = new File("tempFile.txt");
         try {
             FileWriter tempFileWriter = new FileWriter(tempFile, true);
@@ -110,7 +110,7 @@ public class Storage {
      * Edits data file to mark task as uncomplete
      * @param index Position of task in list or row of data file to uncomplete
      */
-    public void uncompleteTaskData(int index) {
+    public void markTaskDataNotComplete(int index) {
         File tempFile = new File("tempFile.txt");
         try {
             FileWriter tempFileWriter = new FileWriter(tempFile, true);
@@ -152,7 +152,7 @@ public class Storage {
                         Ui.readDataErrorMessage();
                         break;
                     }
-                    tasks.add(lineToToDo(currentLine));
+                    tasks.add(lineToTodo(currentLine));
                     break;
                 case ("D"):
                     if (args.length != 4) {
@@ -186,13 +186,13 @@ public class Storage {
      * @param line Line from data file
      * @return Todo object
      */
-    public ToDo lineToToDo(String line) {
+    public ToDo lineToTodo(String line) {
         String[] args = line.split("\\|");
         String taskName = args[2].trim();
 
         ToDo todo = new ToDo(taskName);
         if (args[1].trim().equals("DONE")) {
-            todo.complete();
+            todo.markAsComplete();
         }
         return todo;
     }
@@ -219,7 +219,7 @@ public class Storage {
         }
 
         if (args[1].trim().equals("DONE")) {
-            deadline.complete();
+            deadline.markAsComplete();
         }
         return deadline;
     }
@@ -236,7 +236,7 @@ public class Storage {
 
         Event event = new Event(taskName, start, end);
         if (args[1].trim().equals("DONE")) {
-            event.complete();
+            event.markAsComplete();
         }
         return event;
     }

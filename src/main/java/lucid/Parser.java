@@ -79,7 +79,7 @@ public class Parser {
         if (remainingInput.equals("mark") || remainingInput.isEmpty()) {
             throw new MarkUsageException();
         }
-        return taskList.completeTask(Integer.parseInt(remainingInput));
+        return taskList.markTaskAsComplete(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -93,7 +93,7 @@ public class Parser {
         if (remainingInput.equals("unmark") || remainingInput.isEmpty()) {
             throw new UnmarkUsageException();
         }
-        return taskList.uncompleteTask(Integer.parseInt(remainingInput));
+        return taskList.markTaskAsNotComplete(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -170,6 +170,7 @@ public class Parser {
         if (times.length < 2) {
             throw new EventUsageException();
         }
+
         String start = times[0].trim();
         String end = times[1].trim();
         if (!isCorrectDateTimeFormat(start) || !isCorrectDateTimeFormat(end)) {
@@ -186,11 +187,11 @@ public class Parser {
      */
     public static String handleDeleteCommand(String userInput) throws DeleteUsageException {
         int firstSpaceIndex = userInput.indexOf(' ');
-        String remainingWords = userInput.substring(firstSpaceIndex + 1);
-        if (remainingWords.equals("delete") || remainingWords.isEmpty()) {
+        String remainingInput = userInput.substring(firstSpaceIndex + 1);
+        if (remainingInput.equals("delete") || remainingInput.isEmpty()) {
             throw new DeleteUsageException();
         }
-        return taskList.deleteTask(Integer.parseInt(remainingWords));
+        return taskList.deleteTask(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -214,9 +215,9 @@ public class Parser {
      * @return true if proper format, false otherwise
      */
     public static boolean isCorrectDateTimeFormat(String s) {
-        if (s.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            return true;
-        } else if (s.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
+        final String yearMonthDayFormat = "\\d{4}-\\d{2}-\\d{2}";
+        final String yearMonthDayTimeFormat = "\\d{4}-\\d{2}-\\d{2}-\\d{4}";
+        if (s.matches(yearMonthDayFormat) || s.matches(yearMonthDayTimeFormat)) {
             return true;
         } else {
             return false;
