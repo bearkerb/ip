@@ -47,7 +47,7 @@ public class TaskList {
      * Completes a task in the list
      * @param index Index of task to complete
      */
-    public String completeTask(int index) {
+    public String markTaskAsComplete(int index) {
         if (isInvalidIndex(index)) {
             return "Invalid index detected.";
         }
@@ -56,18 +56,18 @@ public class TaskList {
             return Ui.taskAlreadyCompletedMessage();
         } else {
             Storage data = new Storage();
-            task.complete();
+            task.markAsComplete();
             assert task.isComplete() : "task should be complete";
-            data.completeTaskData(index);
+            data.markTaskDataComplete(index);
             return Ui.taskCompletedMessage(task);
         }
     }
 
     /**
-     * Uncompletes a task in the list
-     * @param index Index of task to uncomplete
+     * Marks a task in the list as not complete
+     * @param index Index of task to mark as not complete
      */
-    public String uncompleteTask(int index) {
+    public String markTaskAsNotComplete(int index) {
         if (isInvalidIndex(index)) {
             return "Invalid index detected.";
         }
@@ -76,9 +76,9 @@ public class TaskList {
             return Ui.taskNotCompletedYetMessage();
         } else {
             Storage data = new Storage();
-            task.uncomplete();
+            task.markAsNotComplete();
             assert !task.isComplete() : "task should be not complete";
-            data.uncompleteTaskData(index);
+            data.markTaskDataNotComplete(index);
             return Ui.taskUncompletedMessage(task);
         }
     }

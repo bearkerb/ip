@@ -15,7 +15,7 @@ public class Lucid {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String userInput = scanner.nextLine();
-            String reply = getResponse(userInput);
+            String reply = getResponseForGui(userInput);
             System.out.println(reply);
             if (userInput.equals("bye")) {
                 scanner.close();
@@ -27,7 +27,7 @@ public class Lucid {
     /**
      * Generates a response for the user's chat message.
      */
-    public String getResponse(String input) {
+    public String getResponseForGui(String input) {
         return Parser.parse(input);
     }
 

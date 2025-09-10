@@ -53,7 +53,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String userText = userInput.getText();
-        String lucidText = lucid.getResponse(userInput.getText());
+        String lucidText = lucid.getResponseForGui(userInput.getText());
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(userText, userImage),
                 DialogBox.getLucidDialog(lucidText, lucidImage)
