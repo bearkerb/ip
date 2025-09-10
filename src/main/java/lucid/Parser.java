@@ -79,6 +79,11 @@ public class Parser {
         if (remainingInput.equals("mark") || remainingInput.isEmpty()) {
             throw new MarkUsageException();
         }
+        try {
+            Integer.parseInt(remainingInput);
+        } catch (NumberFormatException e) {
+            throw new MarkUsageException();
+        }
         return taskList.markTaskAsComplete(Integer.parseInt(remainingInput));
     }
 
@@ -91,6 +96,11 @@ public class Parser {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
         if (remainingInput.equals("unmark") || remainingInput.isEmpty()) {
+            throw new UnmarkUsageException();
+        }
+        try {
+            Integer.parseInt(remainingInput);
+        } catch (NumberFormatException e) {
             throw new UnmarkUsageException();
         }
         return taskList.markTaskAsNotComplete(Integer.parseInt(remainingInput));
@@ -189,6 +199,11 @@ public class Parser {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
         if (remainingInput.equals("delete") || remainingInput.isEmpty()) {
+            throw new DeleteUsageException();
+        }
+        try {
+            Integer.parseInt(remainingInput);
+        } catch (NumberFormatException e) {
             throw new DeleteUsageException();
         }
         return taskList.deleteTask(Integer.parseInt(remainingInput));

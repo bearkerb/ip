@@ -42,6 +42,7 @@ public class Task {
         } else {
             this.isDone = true;
         }
+        assert this.isDone;
     }
 
     /**
@@ -54,5 +55,6 @@ public class Task {
         } else {
             this.isDone = false;
         }
+        assert !this.isDone;
     }
 }
