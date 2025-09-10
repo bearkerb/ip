@@ -57,6 +57,7 @@ public class TaskList {
         } else {
             Storage data = new Storage();
             task.complete();
+            assert task.isComplete() : "task should be complete";
             data.completeTaskData(index);
             return Ui.taskCompletedMessage(task);
         }
@@ -76,6 +77,7 @@ public class TaskList {
         } else {
             Storage data = new Storage();
             task.uncomplete();
+            assert !task.isComplete() : "task should be not complete";
             data.uncompleteTaskData(index);
             return Ui.taskUncompletedMessage(task);
         }
