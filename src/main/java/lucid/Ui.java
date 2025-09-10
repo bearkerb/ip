@@ -12,7 +12,8 @@ public class Ui {
         System.out.println("Hello! I'm Lucid.\nHow can I help you?");
         System.out.println("Just to let you know, I hate the '|' character, so don't use it when talking to me!");
         String out = "Hello! I'm Lucid.\nHow can I help you?\n"
-                + "Just to let you know, I hate the '|' character, so don't use it when talking to me!";
+                + "Just to let you know, I hate the '|' character, so don't use it when talking to me!\n"
+                + "Type 'help' to see all the commands you can use!";
         return out;
     }
 
@@ -154,6 +155,29 @@ public class Ui {
     public static String printTaskInFoundList(int index, Task task) {
         System.out.println(index + ". " + task.toString());
         String out = index + ". " + task.toString();
+        return out;
+    }
+
+    /**
+     * Prints helpsheet containing documentation of all commands
+     * @return String containing information of all commands and their usage
+     */
+    public static String printHelpSheet() {
+        String out = "Here's a list of commands to get started!\n\n"
+                + "- help: Displays the list of available commands and how to use them\n\n"
+                + "- bye: Exits the application\n\n"
+                + "- todo <name>: Adds a task of type Todo to the task list\n\n"
+                + "- deadline <name> /by <yyyy-mm-dd>: Adds a Deadline to the task list\n"
+                + "\t(or <yyyy-mm-dd-xxxx> to specify a time too!)\n\n"
+                + "- event <name> /from <yyyy-mm-dd> /to <yyyy-mm-dd>: Adds an Event to the task list\n"
+                + "\t(or <yyyy-mm-dd-xxxx> to specify a timing for either dates)\n\n"
+                + "- list: Displays the tasks in the task list\n\n"
+                + "- mark <index>: Set a task's status to complete\n\n"
+                + "- unmark <index>: Set a task's status to not complete\n\n"
+                + "- delete <index>: Deletes a task from the list\n\n"
+                + "- find <name>: Searches for tasks whose name contains the specified string\n\n";
+
+        System.out.println(out);
         return out;
     }
 }

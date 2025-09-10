@@ -23,6 +23,8 @@ public class Parser {
                 return Ui.farewell();
             } else if (userInput.equals("list")) {
                 return taskList.printTasks();
+            } else if (userInput.equals("help")) {
+                return Ui.printHelpSheet();
             } else if (firstWord.equals("mark")) {
                 return handleMarkCommand(userInput);
             } else if (firstWord.equals("unmark")) {
@@ -238,4 +240,5 @@ public class Parser {
             return false;
         }
     }
+
 }
