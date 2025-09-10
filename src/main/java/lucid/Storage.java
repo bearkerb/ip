@@ -28,7 +28,7 @@ public class Storage {
                     assert successfulDirectoryCreation : "parent directory should be created";
                 }
                 boolean successfulFileCreation = this.data.createNewFile();
-                assert  successfulFileCreation : "data file should be created";
+                assert successfulFileCreation : "data file should be created";
             } catch (IOException e) {
                 System.out.println("IOException: " + e.getMessage());
             }
