@@ -49,7 +49,7 @@ public class TaskList {
      */
     public String markTaskAsComplete(int index) {
         if (isInvalidIndex(index)) {
-            return "Invalid index detected.";
+            return "That's not a valid task index!";
         }
         Task task = this.tasks.get(index - 1);
         if (task.isComplete()) {
@@ -69,7 +69,7 @@ public class TaskList {
      */
     public String markTaskAsNotComplete(int index) {
         if (isInvalidIndex(index)) {
-            return "Invalid index detected.";
+            return "That's not a valid task index!";
         }
         Task task = this.tasks.get(index - 1);
         if (!task.isComplete()) {
@@ -89,7 +89,7 @@ public class TaskList {
      */
     public String deleteTask(int index) {
         if (isInvalidIndex(index)) {
-            return "Invalid index detected";
+            return "That's not a valid task index!";
         }
         String out = "";
         out += Ui.taskDeletedMessage(this.tasks.get(index - 1));

@@ -1,10 +1,10 @@
-# Duke User Guide
-
-// Update the title above to match the actual product name
+# Lucid User Guide
 
 // Product screenshot goes here
 
-// Product intro goes here
+Lucid is a chatbot with a GUI that helps you manage simple daily tasks. It allows creating, viewing, deleting tasks, as 
+well as marking them as complete and not complete. Users can also search for tasks by name. Task data is saved to an 
+automatically created file for storage.
 
 ## Adding deadlines
 

@@ -8,7 +8,7 @@ public class Parser {
     private static TaskList taskList = new TaskList();
 
     /**
-     * Static method to retrieve user input and process it, calling appropriate function to handle it
+     * Retrieves user input and processs it, calling appropriate function to handle it
      */
     public static String parse(String userInput) {
         try {

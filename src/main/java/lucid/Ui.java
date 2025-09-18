@@ -5,7 +5,7 @@ package lucid;
  */
 public class Ui {
     /**
-     * Opening message that greets user when launching the program
+     * Greets user when launching the program
      * @return String to print to greet user
      */
     public static String introduction() {
@@ -18,7 +18,7 @@ public class Ui {
     }
 
     /**
-     * Farewell message for user exiting program
+     * Bids farewell for user exiting program
      * @return String to print for farewell
      */
     public static String farewell() {
@@ -27,7 +27,7 @@ public class Ui {
     }
 
     /**
-     * Message to notify user of data file creation
+     * Notifies user of data file creation
      * @return String to print for file creation
      */
     public static String firstTimeUserMessage() {
@@ -36,7 +36,7 @@ public class Ui {
     }
 
     /**
-     * Message to notify user of invalid character usage
+     * Notifies user of invalid character usage
      * @return String to print for invalid character detection
      */
     public static String invalidCharacterDetectedMessage() {
@@ -45,7 +45,7 @@ public class Ui {
     }
 
     /**
-     * Message to notify user of error reading data
+     * Notifies user of error reading data
      * @return String to print for data reading error
      */
     public static String readDataErrorMessage() {
@@ -54,7 +54,7 @@ public class Ui {
     }
 
     /**
-     * Message when user tries completing an already complete task
+     * Prints message when user tries completing an already complete task
      * @return String to print
      */
     public static String taskAlreadyCompletedMessage() {
@@ -63,7 +63,7 @@ public class Ui {
     }
 
     /**
-     * Message when user tries unmarking a task not yet complete
+     * Prints message when user tries unmarking a task not yet complete
      * @return
      */
     public static String taskNotCompletedYetMessage() {
@@ -138,7 +138,7 @@ public class Ui {
     }
 
     /**
-     * Message to inform user of tasks they have searched for
+     * Prints message to inform user of tasks they have searched for
      * @return String representing tasks found
      */
     public static String tasksFoundMessage() {
