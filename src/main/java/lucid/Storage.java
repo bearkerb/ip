@@ -141,47 +141,89 @@ public class Storage {
      * Returns ArrayList containing tasks based on data file
      * @return ArrayList of existing tasks
      */
+    // Refactored using ChatGPT to improve SLAP
     public ArrayList<Task> readData() {
         ArrayList<Task> tasks = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(this.data));
+        try (BufferedReader reader = new BufferedReader(new FileReader(this.data))) {
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {
-                String[] args = currentLine.split("\\|");
-                String type = args[0].trim();
-                switch (type) {
-                case ("T"):
-                    if (args.length != 3) {
-                        Ui.readDataErrorMessage();
-                        break;
-                    }
-                    tasks.add(lineToTodo(currentLine));
-                    break;
-                case ("D"):
-                    if (args.length != 4) {
-                        Ui.readDataErrorMessage();
-                        break;
-                    }
-                    tasks.add(lineToDeadline(currentLine));
-                    break;
-                case ("E"):
-                    if (args.length != 5) {
-                        Ui.readDataErrorMessage();
-                        break;
-                    }
-                    tasks.add(lineToEvent(currentLine));
-                    break;
-                default:
-                    Ui.readDataErrorMessage();
-                    break;
+                Task task = parseLineToTask(currentLine);
+                if (task != null) {
+                    tasks.add(task);
                 }
-
             }
-            reader.close();
         } catch (IOException e) {
             System.out.println("Error reading file, IOException: " + e.getMessage());
         }
         return tasks;
+    }
+
+    /**
+     * Checks type of task line is representing, and calls appropriate function to convert line to that task
+     * @param line Line representing task from data file
+     * @return Task represented by line
+     */
+    // Extracted from readData() using ChatGPT to improve SLAP
+    private Task parseLineToTask(String line) {
+        String[] args = line.split("\\|");
+        String type = args[0].trim();
+
+        switch (type) {
+        case "T":
+            return parseTodo(args, line);
+        case "D":
+            return parseDeadline(args, line);
+        case "E":
+            return parseEvent(args, line);
+        default:
+            Ui.readDataErrorMessage();
+            return null;
+        }
+    }
+
+    /**
+     * Checks correct number of arguments for task type, then calls function to convert line to Todo
+     * @param args Array obtained by splitting line using '|'
+     * @param line Line representing task from data file
+     * @return Todo represented by line
+     */
+    // Extracted from readData() using ChatGPT to improve SLAP
+    private Task parseTodo(String[] args, String line) {
+        if (args.length != 3) {
+            Ui.readDataErrorMessage();
+            return null;
+        }
+        return lineToTodo(line);
+    }
+
+    /**
+     * Checks correct number of arguments for task type, then calls function to convert line to Deadline
+     * @param args Array obtained by splitting line using '|'
+     * @param line Line representing task from data file
+     * @return Deadline represented by line
+     */
+    // Extracted from readData() using ChatGPT to improve SLAP
+    private Task parseDeadline(String[] args, String line) {
+        if (args.length != 4) {
+            Ui.readDataErrorMessage();
+            return null;
+        }
+        return lineToDeadline(line);
+    }
+
+    /**
+     * Checks correct number of arguments for task type, then calls function to convert line to Event
+     * @param args Array obtained by splitting line using '|'
+     * @param line Line representing task from data file
+     * @return Event represented by line
+     */
+    // Extracted from readData() using ChatGPT to improve SLAP
+    private Task parseEvent(String[] args, String line) {
+        if (args.length != 5) {
+            Ui.readDataErrorMessage();
+            return null;
+        }
+        return lineToEvent(line);
     }
 
     /**

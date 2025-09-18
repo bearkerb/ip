@@ -90,7 +90,7 @@ public class Parser {
     }
 
     /**
-     * Marks appropriate indexed task as uncomplete
+     * Marks appropriate indexed task as not complete
      *
      * @param userInput contains keyword "unmark" and index of task to mark as complete
      */

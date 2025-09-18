@@ -36,7 +36,7 @@ public class TaskList {
      */
     public String printTasks() {
         int size = this.tasks.size();
-        String out = "";
+        String out = "Here are all your tasks:\n";
         for (int i = 1; i <= size; i++) {
             out += Ui.printTaskInFoundList(i, this.tasks.get(i - 1)) + "\n";
         }
