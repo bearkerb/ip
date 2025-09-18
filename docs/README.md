@@ -6,7 +6,6 @@ Lucid is a chatbot with a GUI that helps you manage simple daily tasks. It allow
 well as marking them as complete and not complete. Users can also search for tasks by name. Task data is saved to an 
 automatically created file for storage.
 
-# 
 
 ## Quick start
 1. Download the latest jar file from 
@@ -15,7 +14,6 @@ automatically created file for storage.
 4. Type your command in the message box at the bottom and press enter to execute it.
 5. You're good to go!
 
-# 
 
 ## Features
 - Simple GUI
@@ -25,15 +23,12 @@ automatically created file for storage.
 - Delete tasks
 - Find tasks
 
-#
-
 ## Notes about command format
 - The chatbot does not accept the use of the `|` character.
 - Extraneous parameters will not be ignored, and will not be accepted.
 - Parameters for commands like `event ... /from ... /to ...` must be in the correct order.
 - Dates `<yyyy-mm-dd` can be substituted with `<yyyy-mm-dd-xxxx>` to specify times.
 
-#
 
 ## Getting help
 Displays a message showing all available commands and their usages  
