@@ -19,7 +19,7 @@ public class Storage {
      * Constructor to initialize the storage, creates a new data folder for data file if it does not already exist
      */
     public Storage() {
-        this.data = new File("./data/Lucid.Lucid.txt");
+        this.data = new File("./data/Lucid.txt");
         if (!this.data.exists()) {
             try {
                 if (!this.data.getParentFile().exists()) {

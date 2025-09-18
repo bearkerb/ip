@@ -1,0 +1,3 @@
+T | DONE | asdf
+D | NOT DONE | jklm | 2025-11-12-1333
+T | NOT DONE | rat
