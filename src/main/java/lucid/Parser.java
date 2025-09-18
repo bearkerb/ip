@@ -11,7 +11,6 @@ public class Parser {
      * Static method to retrieve user input and process it, calling appropriate function to handle it
      */
     public static String parse(String userInput) {
-
         try {
             if (userInput.contains("|")) {
                 return Ui.invalidCharacterDetectedMessage();
@@ -19,7 +18,6 @@ public class Parser {
             String firstWord = userInput.split(" ")[0];
 
             if (userInput.equals("bye")) {
-                Ui.farewell();
                 return Ui.farewell();
             } else if (userInput.equals("list")) {
                 return taskList.printTasks();
@@ -46,7 +44,6 @@ public class Parser {
             System.out.println(e.getMessage());
             return e.getMessage();
         }
-
     }
 
     /**

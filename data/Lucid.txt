@@ -1,4 +1,5 @@
 T | NOT DONE | asdf
-D | NOT DONE | jklm | 2025-11-12-1333
-E | DONE | madein | 2025-11-12-1234 | 2025-11-13-1335
+D | DONE | jklm | 2025-11-12-1333
+E | NOT DONE | madein | 2025-11-12-1234 | 2025-11-13-1335
 D | DONE | ratty | 2025-09-18
+T | NOT DONE | testy
