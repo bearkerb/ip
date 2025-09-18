@@ -29,10 +29,10 @@ public class MainWindow extends AnchorPane {
 
     private Lucid lucid;
 
-    // User image by Satoyu0704, edited using AI Ease to remove background
+    // User image by Streamline, https://www.streamlinehq.com/emojis/download/smiling-face-with-sunglasses--31896
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
 
-    // Image by Nexon, retrieved from Maplestory Wiki
+    // Image by Nexon, retrieved from Maplestory Wiki, https://maplestorywiki.net/w/Lucid
     private Image lucidImage = new Image(this.getClass().getResourceAsStream("/images/Lucid.png"));
 
     @FXML
