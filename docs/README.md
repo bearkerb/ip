@@ -8,7 +8,11 @@ automatically created file for storage.
 
 
 ## Quick start
-1. Download the latest jar file from 
+Prerequisites
+- Java version 17  
+
+How to run
+1. Download the latest jar file from [here](https://github.com/bearkerb/ip/releases)
 2. Copy the file to the folder you wish to use as the home folder
 3. Open a terminal, navigate to the folder with the jar file and use `java -jar lucid.jar` to run the application
 4. Type your command in the message box at the bottom and press enter to execute it.
@@ -27,7 +31,7 @@ automatically created file for storage.
 - The chatbot does not accept the use of the `|` character.
 - Extraneous parameters will not be ignored, and will not be accepted.
 - Parameters for commands like `event ... /from ... /to ...` must be in the correct order.
-- Dates `<yyyy-mm-dd` can be substituted with `<yyyy-mm-dd-xxxx>` to specify times.
+- Dates `yyyy-mm-dd` can be substituted with `yyyy-mm-dd-xxxx` to specify times.
 
 
 ## Getting help
