@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 /**
@@ -154,6 +155,8 @@ public class Storage {
             }
         } catch (IOException e) {
             System.out.println("Error reading file, IOException: " + e.getMessage());
+        } catch (LucidException e) {
+            System.out.println(e.getMessage());
         }
         return tasks;
     }
@@ -164,7 +167,7 @@ public class Storage {
      * @return Task represented by line
      */
     // Extracted from readData() using ChatGPT to improve SLAP
-    private Task parseLineToTask(String line) {
+    private Task parseLineToTask(String line) throws IncorrectDataFormatException {
         String[] args = line.split("\\|");
         String type = args[0].trim();
 
@@ -188,7 +191,7 @@ public class Storage {
      * @return Todo represented by line
      */
     // Extracted from readData() using ChatGPT to improve SLAP
-    private Task parseTodo(String[] args, String line) {
+    private Task parseTodo(String[] args, String line) throws IncorrectDataFormatException {
         if (args.length != 3) {
             Ui.readDataErrorMessage();
             return null;
@@ -203,7 +206,7 @@ public class Storage {
      * @return Deadline represented by line
      */
     // Extracted from readData() using ChatGPT to improve SLAP
-    private Task parseDeadline(String[] args, String line) {
+    private Task parseDeadline(String[] args, String line) throws IncorrectDataFormatException {
         if (args.length != 4) {
             Ui.readDataErrorMessage();
             return null;
@@ -218,7 +221,7 @@ public class Storage {
      * @return Event represented by line
      */
     // Extracted from readData() using ChatGPT to improve SLAP
-    private Task parseEvent(String[] args, String line) {
+    private Task parseEvent(String[] args, String line) throws IncorrectDataFormatException {
         if (args.length != 5) {
             Ui.readDataErrorMessage();
             return null;
@@ -231,8 +234,11 @@ public class Storage {
      * @param line Line from data file
      * @return Todo object
      */
-    public ToDo lineToTodo(String line) {
+    public ToDo lineToTodo(String line) throws IncorrectDataFormatException {
         String[] args = line.split("\\|");
+        if (args.length != 3) {
+            throw new IncorrectDataFormatException();
+        }
         assert args.length == 3 : "todo data must have 3 parts";
         String taskName = args[2].trim();
 
@@ -247,8 +253,11 @@ public class Storage {
      * @param line Line from data file
      * @return Deadline object
      */
-    public Deadline lineToDeadline(String line) {
+    public Deadline lineToDeadline(String line) throws IncorrectDataFormatException {
         String[] args = line.split("\\|");
+        if (args.length != 4) {
+            throw new IncorrectDataFormatException();
+        }
         assert args.length == 4 : "deadline data must have 4 parts";
 
         String taskName = args[2].trim();
@@ -276,8 +285,11 @@ public class Storage {
      * @param line Line from data file
      * @return Event object
      */
-    public Event lineToEvent(String line) {
+    public Event lineToEvent(String line) throws IncorrectDataFormatException {
         String[] args = line.split("\\|");
+        if (args.length != 5) {
+            throw new IncorrectDataFormatException();
+        }
         assert args.length == 5 : "event data must have 5 parts";
 
         String taskName = args[2].trim();

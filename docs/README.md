@@ -83,3 +83,7 @@ Format: `find <keyword>` searches and prints all tasks that contain the `keyword
 Closes the application with a goodbye message  
 Format: `bye`
 
+# AI Usage
+ChatGPT - 18 September 2025
+- Refactor readData() in Storage class for better SLAP
+- Refactor and improve JUnit tests 
