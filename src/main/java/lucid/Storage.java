@@ -13,8 +13,12 @@ import java.util.ArrayList;
  * Class to handle the saving and updating of data when changes are made to the task list
  */
 public class Storage {
-    private static final String STATUS_DONE = "DONE";
-    private static final String STATUS_NOT_DONE = "NOT DONE";
+    public static final String TYPE_TODO = "T";
+    public static final String TYPE_DEADLINE = "D";
+    public static final String TYPE_EVENT = "E";
+    public static final String STATUS_DONE = "DONE";
+    public static final String STATUS_NOT_DONE = "NOT DONE";
+
     private static final String SPLITTER_REGEX = "\\|";
     private File data;
 
@@ -192,11 +196,11 @@ public class Storage {
         String type = args[0].trim();
 
         switch (type) {
-        case "T":
+        case TYPE_TODO:
             return parseTodo(args, line);
-        case "D":
+        case TYPE_DEADLINE:
             return parseDeadline(args, line);
-        case "E":
+        case TYPE_EVENT:
             return parseEvent(args, line);
         default:
             Ui.readDataErrorMessage();

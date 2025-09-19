@@ -47,9 +47,10 @@ public class Event extends Task {
 
     @Override
     public String toDataString() {
-        return "E | " + (this.isComplete() ? "DONE" : "NOT DONE") + " | " + this.getName() + " | " + this.startDate
-                + (this.startTime == null ? "" : "-" + this.startTime.format(DateTimeFormatter.ofPattern("HHmm")))
-                + " | " + this.endDate + (this.endTime == null ? "" : "-"
+        return Storage.TYPE_EVENT + " | " + (this.isComplete() ? Storage.STATUS_DONE : Storage.STATUS_NOT_DONE) + " | "
+                + this.getName() + " | " + this.startDate + (this.startTime == null ? "" : "-"
+                + this.startTime.format(DateTimeFormatter.ofPattern("HHmm"))) + " | "
+                + this.endDate + (this.endTime == null ? "" : "-"
                 + this.endTime.format(DateTimeFormatter.ofPattern("HHmm"))) + "\n";
     }
 

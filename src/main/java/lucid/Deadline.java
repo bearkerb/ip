@@ -51,7 +51,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toDataString() {
-        return "D | " + (this.isComplete() ? "DONE" : "NOT DONE") + " | " + this.getName() + " | " + this.dueDate
-                + (this.dueTime == null ? "" : "-" + this.dueTime.format(DateTimeFormatter.ofPattern("HHmm"))) + "\n";
+        return Storage.TYPE_DEADLINE + " | " + (this.isComplete() ? Storage.STATUS_DONE : Storage.STATUS_NOT_DONE)
+                + " | " + this.getName() + " | " + this.dueDate + (this.dueTime == null ? "" : "-"
+                + this.dueTime.format(DateTimeFormatter.ofPattern("HHmm"))) + "\n";
     }
 }

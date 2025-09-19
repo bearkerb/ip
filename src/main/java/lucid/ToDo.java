@@ -15,6 +15,6 @@ public class ToDo extends Task {
 
     @Override
     public String toDataString() {
-        return "T | " + (this.isComplete() ? "DONE" : "NOT DONE") + " | " + this.getName() + "\n";
+        return Storage.TYPE_TODO + " | " + (this.isComplete() ? Storage.STATUS_DONE : Storage.STATUS_NOT_DONE) + " | " + this.getName() + "\n";
     }
 }
