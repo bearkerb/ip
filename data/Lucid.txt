@@ -1,5 +1,7 @@
 T | DONE | clean room
-D | NOT DONE | cs2103 ip | 2025-09-20
-D | DONE | asdf | 2025-11-12-1234
+D | DONE | cs2103 ip | 2025-09-20
+D | NOT DONE | asdf | 2025-11-12-1234
 T | NOT DONE | rat
 D | NOT DONE | test | 2025-11-12-1234
+T | NOT DONE | asd
+E | DONE | testy | 2025-11-11-1234 | 2026-12-12-1444

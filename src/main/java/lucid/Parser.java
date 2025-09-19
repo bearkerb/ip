@@ -14,6 +14,7 @@ public class Parser {
     private static final String FLAG_BY = "/by";
     private static final String FLAG_FROM = "/from";
     private static final String FLAG_TO = "/to";
+    private static final Character SPACE_CHAR = ' ';
     private static TaskList taskList = new TaskList();
 
     /**
@@ -82,7 +83,7 @@ public class Parser {
      * @param userInput contains keyword "mark" and index of task to mark as complete
      */
     public static String handleMarkCommand(String userInput) throws MarkUsageException {
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
         verifyMarkInput(remainingInput);
         return taskList.markTaskAsComplete(Integer.parseInt(remainingInput));
@@ -110,7 +111,7 @@ public class Parser {
      * @param userInput contains keyword "unmark" and index of task to mark as complete
      */
     public static String handleUnmarkCommand(String userInput) throws UnmarkUsageException {
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
         verifyUnmarkInput(remainingInput);
         return taskList.markTaskAsNotComplete(Integer.parseInt(remainingInput));
@@ -139,7 +140,7 @@ public class Parser {
      * @throws ToDoEmptyException Exception resulting from incorrect string format
      */
     public static String handleToDoCommand(String userInput) throws ToDoEmptyException {
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
         if (remainingInput.equals("todo") || remainingInput.isEmpty()) {
             throw new ToDoEmptyException();
@@ -176,7 +177,7 @@ public class Parser {
         if (!userInput.contains(FLAG_BY)) {
             throw new DeadlineUsageException();
         }
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
         String[] args = remainingInput.split(FLAG_BY);
 
@@ -217,7 +218,7 @@ public class Parser {
         if (!userInput.contains(FLAG_FROM) || !userInput.contains(FLAG_TO)) {
             throw new EventUsageException();
         }
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
 
         String[] args = remainingInput.split(FLAG_FROM);
@@ -245,7 +246,7 @@ public class Parser {
      * @throws DeleteUsageException Exception resulting from incorrect usage
      */
     public static String handleDeleteCommand(String userInput) throws DeleteUsageException {
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
         verifyDeleteInput(remainingInput);
         return taskList.deleteTask(Integer.parseInt(remainingInput));
@@ -274,7 +275,7 @@ public class Parser {
      * @throws FindUsageException
      */
     public static String handleFindCommand(String userInput) throws FindUsageException {
-        int firstSpaceIndex = userInput.indexOf(' ');
+        int firstSpaceIndex = userInput.indexOf(SPACE_CHAR);
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
         if (remainingInput.equals("find") || remainingInput.isEmpty()) {
             throw new FindUsageException();
