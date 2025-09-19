@@ -13,6 +13,9 @@ import java.util.ArrayList;
  * Class to handle the saving and updating of data when changes are made to the task list
  */
 public class Storage {
+    private static final String STATUS_DONE = "DONE";
+    private static final String STATUS_NOT_DONE = "NOT DONE";
+    private static final String SPLITTER_REGEX = "\\|";
     private File data;
 
     /**
@@ -59,26 +62,36 @@ public class Storage {
         File tempFile = new File("tempFile.txt");
         assert tempFile.exists() : "cannot write to null tempFile";
         try {
-            FileWriter tempFileWriter = new FileWriter(tempFile, true);
-            BufferedReader reader = new BufferedReader(new FileReader(this.data));
-            int row = 1;
-            String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
-                if (row == index) {
-                    row++;
-                    continue;
-                }
-                tempFileWriter.append(currentLine + "\n");
-                row++;
-            }
-            tempFileWriter.close();
-            reader.close();
+            deleteTaskFromFile(index, tempFile);
 
             Files.deleteIfExists(this.data.toPath());
             Files.move(tempFile.toPath(), this.data.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.out.println("Error creating FileWriter / editing to file, IOException: " + e.getMessage());
         }
+    }
+
+    /**
+     * Deletes task at specified index from file
+     * @param index of task to delete
+     * @param tempFile temporary file to rewrite file
+     * @throws IOException for error creating FileWriter or editing file
+     */
+    private void deleteTaskFromFile(int index, File tempFile) throws IOException {
+        FileWriter tempFileWriter = new FileWriter(tempFile, true);
+        BufferedReader reader = new BufferedReader(new FileReader(this.data));
+        int row = 1;
+        String currentLine;
+        while ((currentLine = reader.readLine()) != null) {
+            if (row == index) {
+                row++;
+                continue;
+            }
+            tempFileWriter.append(currentLine + "\n");
+            row++;
+        }
+        tempFileWriter.close();
+        reader.close();
     }
 
     /**
@@ -88,25 +101,29 @@ public class Storage {
     public void markTaskDataComplete(int index) {
         File tempFile = new File("tempFile.txt");
         try {
-            FileWriter tempFileWriter = new FileWriter(tempFile, true);
-            BufferedReader reader = new BufferedReader(new FileReader(this.data));
-            int row = 1;
-            String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
-                if (row == index) {
-                    currentLine = currentLine.replaceFirst("NOT DONE", "DONE");
-                }
-                tempFileWriter.append(currentLine + "\n");
-                row++;
-            }
-            tempFileWriter.close();
-            reader.close();
+            markTaskCompleteInFile(tempFile, index);
 
             Files.deleteIfExists(this.data.toPath());
             Files.move(tempFile.toPath(), this.data.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.out.println("Error creating FileWriter / editing to file, IOException: " + e.getMessage());
         }
+    }
+
+    private void markTaskCompleteInFile(File tempFile, int index) throws IOException {
+        FileWriter tempFileWriter = new FileWriter(tempFile, true);
+        BufferedReader reader = new BufferedReader(new FileReader(this.data));
+        int row = 1;
+        String currentLine;
+        while ((currentLine = reader.readLine()) != null) {
+            if (row == index) {
+                currentLine = currentLine.replaceFirst(STATUS_NOT_DONE, STATUS_DONE);
+            }
+            tempFileWriter.append(currentLine + "\n");
+            row++;
+        }
+        tempFileWriter.close();
+        reader.close();
     }
 
     /**
@@ -116,25 +133,29 @@ public class Storage {
     public void markTaskDataNotComplete(int index) {
         File tempFile = new File("tempFile.txt");
         try {
-            FileWriter tempFileWriter = new FileWriter(tempFile, true);
-            BufferedReader reader = new BufferedReader(new FileReader(this.data));
-            int row = 1;
-            String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
-                if (row == index) {
-                    currentLine = currentLine.replaceFirst("DONE", "NOT DONE");
-                }
-                tempFileWriter.append(currentLine + "\n");
-                row++;
-            }
-            tempFileWriter.close();
-            reader.close();
+            markTaskNotCompleteInFile(tempFile, index);
 
             Files.deleteIfExists(this.data.toPath());
             Files.move(tempFile.toPath(), this.data.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.out.println("Error creating FileWriter / editing to file, IOException: " + e.getMessage());
         }
+    }
+
+    private void markTaskNotCompleteInFile(File tempFile, int index) throws IOException {
+        FileWriter tempFileWriter = new FileWriter(tempFile, true);
+        BufferedReader reader = new BufferedReader(new FileReader(this.data));
+        int row = 1;
+        String currentLine;
+        while ((currentLine = reader.readLine()) != null) {
+            if (row == index) {
+                currentLine = currentLine.replaceFirst(STATUS_DONE, STATUS_NOT_DONE);
+            }
+            tempFileWriter.append(currentLine + "\n");
+            row++;
+        }
+        tempFileWriter.close();
+        reader.close();
     }
 
     /**
@@ -167,7 +188,7 @@ public class Storage {
      */
     // Extracted from readData() using ChatGPT to improve SLAP
     private Task parseLineToTask(String line) throws IncorrectDataFormatException {
-        String[] args = line.split("\\|");
+        String[] args = line.split(SPLITTER_REGEX);
         String type = args[0].trim();
 
         switch (type) {
@@ -234,14 +255,14 @@ public class Storage {
      * @return Todo object
      */
     public ToDo lineToTodo(String line) throws IncorrectDataFormatException {
-        String[] args = line.split("\\|");
+        String[] args = line.split(SPLITTER_REGEX);
         if (args.length != 3) {
             throw new IncorrectDataFormatException();
         }
 
         String taskName = args[2].trim();
         ToDo todo = new ToDo(taskName);
-        if (args[1].trim().equals("DONE")) {
+        if (args[1].trim().equals(STATUS_DONE)) {
             todo.markAsComplete();
         }
         return todo;
@@ -252,7 +273,7 @@ public class Storage {
      * @return Deadline object
      */
     public Deadline lineToDeadline(String line) throws IncorrectDataFormatException {
-        String[] args = line.split("\\|");
+        String[] args = line.split(SPLITTER_REGEX);
         if (args.length != 4) {
             throw new IncorrectDataFormatException();
         }
@@ -260,7 +281,7 @@ public class Storage {
         String due = args[3].trim();
         Deadline deadline = createDeadline(taskName, due);
 
-        if (args[1].trim().equals("DONE")) {
+        if (args[1].trim().equals(STATUS_DONE)) {
             deadline.markAsComplete();
         }
         return deadline;
@@ -292,7 +313,7 @@ public class Storage {
      * @return Event object
      */
     public Event lineToEvent(String line) throws IncorrectDataFormatException {
-        String[] args = line.split("\\|");
+        String[] args = line.split(SPLITTER_REGEX);
         if (args.length != 5) {
             throw new IncorrectDataFormatException();
         }
@@ -303,7 +324,7 @@ public class Storage {
         String end = args[4].trim();
 
         Event event = new Event(taskName, start, end);
-        if (args[1].trim().equals("DONE")) {
+        if (args[1].trim().equals(STATUS_DONE)) {
             event.markAsComplete();
         }
         return event;

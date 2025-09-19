@@ -9,10 +9,15 @@ import java.time.format.DateTimeFormatter;
  * Contains a TaskList to store information on existing tasks
  */
 public class Parser {
+    private static final String DATE_FORMAT = "\\d{4}-\\d{2}-\\d{2}";
+    private static final String DATETIME_FORMAT = "\\d{4}-\\d{2}-\\d{2}-\\d{4}";
+    private static final String FLAG_BY = "/by";
+    private static final String FLAG_FROM = "/from";
+    private static final String FLAG_TO = "/to";
     private static TaskList taskList = new TaskList();
 
     /**
-     * Retrieves user input and processs it, calling appropriate function to handle it
+     * Retrieves user input and processes it, calling appropriate function to handle it
      */
     public static String parse(String userInput) {
         try {
@@ -61,9 +66,9 @@ public class Parser {
      */
     public static String[] parseDateTimeString(String dateTimeString) throws DateTimeParseException {
         String[] dateAndTime;
-        if (dateTimeString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+        if (dateTimeString.matches(DATE_FORMAT)) {
             dateAndTime = new String[]{dateTimeString, null};
-        } else if (dateTimeString.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
+        } else if (dateTimeString.matches(DATETIME_FORMAT)) {
             dateAndTime = new String[]{dateTimeString.substring(0, 10), dateTimeString.substring(11)};
         } else {
             throw new DateTimeParseException();
@@ -152,9 +157,9 @@ public class Parser {
         String[] args = getDeadlineArgs(userInput);
         String name = args[0];
         String due = args[1];
-        if (due.matches("\\d{4}-\\d{2}-\\d{2}")) {
+        if (due.matches(DATE_FORMAT)) {
             return taskList.addTask(new Deadline(name, due));
-        } else if (due.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
+        } else if (due.matches(DATETIME_FORMAT)) {
             return taskList.addTask((new Deadline(name, due.substring(0, 10), due.substring(11))));
         } else {
             throw new DeadlineUsageException();
@@ -168,12 +173,12 @@ public class Parser {
      * @throws DeadlineUsageException
      */
     private static String[] getDeadlineArgs(String userInput) throws DeadlineUsageException, InvalidDateTimeException {
-        if (!userInput.contains("/by")) {
+        if (!userInput.contains(FLAG_BY)) {
             throw new DeadlineUsageException();
         }
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
-        String[] args = remainingInput.split("/by");
+        String[] args = remainingInput.split(FLAG_BY);
 
         if (args.length == 0 || args.length == 1) {
             throw new DeadlineUsageException();
@@ -209,19 +214,19 @@ public class Parser {
      * @throws EventUsageException if any invalid name or non-matching string format detected
      */
     private static String[] getEventArgs(String userInput) throws EventUsageException {
-        if (!userInput.contains("/from") || !userInput.contains("/to")) {
+        if (!userInput.contains(FLAG_FROM) || !userInput.contains(FLAG_TO)) {
             throw new EventUsageException();
         }
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
 
-        String[] args = remainingInput.split("/from");
+        String[] args = remainingInput.split(FLAG_FROM);
         if (args.length < 2) {
             throw new EventUsageException();
         }
 
         String name = args[0].trim();
-        String[] times = args[1].split("/to");
+        String[] times = args[1].split(FLAG_TO);
         if (times.length < 2) {
             throw new EventUsageException();
         }
@@ -283,9 +288,7 @@ public class Parser {
      * @return true if proper format, false otherwise
      */
     public static boolean isCorrectDateTimeFormat(String s) {
-        final String yearMonthDayFormat = "\\d{4}-\\d{2}-\\d{2}";
-        final String yearMonthDayTimeFormat = "\\d{4}-\\d{2}-\\d{2}-\\d{4}";
-        if (s.matches(yearMonthDayFormat) || (s.matches(yearMonthDayTimeFormat))) {
+        if (s.matches(DATE_FORMAT) || (s.matches(DATETIME_FORMAT))) {
             return true;
         } else {
             return false;
@@ -299,7 +302,7 @@ public class Parser {
      */
     private static void checkDateTimeValidity(String s) throws InvalidDateTimeException {
         try {
-            if (s.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            if (s.matches(DATE_FORMAT)) {
                 LocalDate.parse(s);
             } else {
                 LocalDate.parse(s.substring(0, 10));
