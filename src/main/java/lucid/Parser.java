@@ -1,5 +1,9 @@
 package lucid;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Class with static fields and methods to handle the retrieval and interpretation of user inputs
  * Contains a TaskList to store information on existing tasks
@@ -75,6 +79,16 @@ public class Parser {
     public static String handleMarkCommand(String userInput) throws MarkUsageException {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
+        verifyMarkInput(remainingInput);
+        return taskList.markTaskAsComplete(Integer.parseInt(remainingInput));
+    }
+
+    /**
+     * Verifies validity of user input for mark command
+     * @param remainingInput user input substring after mark
+     * @throws MarkUsageException if the input is invalid
+     */
+    private static void verifyMarkInput(String remainingInput) throws MarkUsageException {
         if (remainingInput.equals("mark") || remainingInput.isEmpty()) {
             throw new MarkUsageException();
         }
@@ -83,7 +97,6 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new MarkUsageException();
         }
-        return taskList.markTaskAsComplete(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -94,6 +107,16 @@ public class Parser {
     public static String handleUnmarkCommand(String userInput) throws UnmarkUsageException {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1).trim();
+        verifyUnmarkInput(remainingInput);
+        return taskList.markTaskAsNotComplete(Integer.parseInt(remainingInput));
+    }
+
+    /**
+     * Verifies validity of user input for unmark command
+     * @param remainingInput user input substring after unmark
+     * @throws UnmarkUsageException if the input is invalid
+     */
+    private static void verifyUnmarkInput(String remainingInput) throws UnmarkUsageException {
         if (remainingInput.equals("unmark") || remainingInput.isEmpty()) {
             throw new UnmarkUsageException();
         }
@@ -102,7 +125,6 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new UnmarkUsageException();
         }
-        return taskList.markTaskAsNotComplete(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -122,27 +144,14 @@ public class Parser {
 
     /**
      * Adds a deadline to list of tasks
-     *
      * @param userInput String containing command and information of deadline task
      * @throws DeadlineUsageException Exception resulting from incorrect string format
      */
-    public static String handleDeadlineCommand(String userInput) throws DeadlineUsageException {
-        if (!userInput.contains("/by")) {
-            throw new DeadlineUsageException();
-        }
-        int firstSpaceIndex = userInput.indexOf(' ');
-        String remainingInput = userInput.substring(firstSpaceIndex + 1);
-
-        String[] args = remainingInput.split("/by");
-        if (args.length == 0 || args.length == 1) {
-            throw new DeadlineUsageException();
-        }
-        String name = args[0].trim();
-        if (name.isEmpty()) {
-            throw new DeadlineUsageException();
-        }
-        String due = args[1].trim();
-
+    public static String handleDeadlineCommand(String userInput) throws DeadlineUsageException,
+            InvalidDateTimeException {
+        String[] args = getDeadlineArgs(userInput);
+        String name = args[0];
+        String due = args[1];
         if (due.matches("\\d{4}-\\d{2}-\\d{2}")) {
             return taskList.addTask(new Deadline(name, due));
         } else if (due.matches("\\d{4}-\\d{2}-\\d{2}-\\d{4}")) {
@@ -153,12 +162,53 @@ public class Parser {
     }
 
     /**
+     * Verifies and extracts arguments from userInput for the handleDeadlineCommand function
+     * @param userInput String containing command and information of deadline task
+     * @return String array with first element name, second element due
+     * @throws DeadlineUsageException
+     */
+    private static String[] getDeadlineArgs(String userInput) throws DeadlineUsageException, InvalidDateTimeException {
+        if (!userInput.contains("/by")) {
+            throw new DeadlineUsageException();
+        }
+        int firstSpaceIndex = userInput.indexOf(' ');
+        String remainingInput = userInput.substring(firstSpaceIndex + 1);
+        String[] args = remainingInput.split("/by");
+
+        if (args.length == 0 || args.length == 1) {
+            throw new DeadlineUsageException();
+        }
+        String name = args[0].trim();
+        String due = args[1].trim();
+        if (name.isEmpty() || !isCorrectDateTimeFormat(due)) {
+            throw new DeadlineUsageException();
+        }
+        checkDateTimeValidity(due);
+        return new String[] {name, due};
+    }
+    /**
      * Adds an event to list of tasks
-     *
      * @param userInput String containing command and information of event task
      * @throws EventUsageException Exception resulting from incorrect string format
+     * @throws InvalidDateTimeException if valid string format, but invalid date detected
      */
-    public static String handleEventCommand(String userInput) throws EventUsageException {
+    public static String handleEventCommand(String userInput) throws EventUsageException, InvalidDateTimeException {
+        String[] args = getEventArgs(userInput);
+        String name = args[0];
+        String start = args[1];
+        String end = args[2];
+        checkDateTimeValidity(start);
+        checkDateTimeValidity(end);
+        return taskList.addTask((new Event(name, start, end)));
+    }
+
+    /**
+     * Verifies and extracts arguments from userInput for the handleEventCommand function
+     * @param userInput String containing command and information of event task
+     * @return String array with first element name, second element start, third element end
+     * @throws EventUsageException if any invalid name or non-matching string format detected
+     */
+    private static String[] getEventArgs(String userInput) throws EventUsageException {
         if (!userInput.contains("/from") || !userInput.contains("/to")) {
             throw new EventUsageException();
         }
@@ -171,10 +221,6 @@ public class Parser {
         }
 
         String name = args[0].trim();
-        if (name.isEmpty()) {
-            throw new EventUsageException();
-        }
-
         String[] times = args[1].split("/to");
         if (times.length < 2) {
             throw new EventUsageException();
@@ -182,12 +228,11 @@ public class Parser {
 
         String start = times[0].trim();
         String end = times[1].trim();
-        if (!isCorrectDateTimeFormat(start) || !isCorrectDateTimeFormat(end)) {
+        if ((name.isEmpty()) || !isCorrectDateTimeFormat(start) || !isCorrectDateTimeFormat(end)) {
             throw new EventUsageException();
         }
-        return taskList.addTask((new Event(name, start, end)));
+        return new String[] {name, start, end};
     }
-
     /**
      * Deletes a task from the list of tasks
      *
@@ -197,6 +242,16 @@ public class Parser {
     public static String handleDeleteCommand(String userInput) throws DeleteUsageException {
         int firstSpaceIndex = userInput.indexOf(' ');
         String remainingInput = userInput.substring(firstSpaceIndex + 1);
+        verifyDeleteInput(remainingInput);
+        return taskList.deleteTask(Integer.parseInt(remainingInput));
+    }
+
+    /**
+     * Verifies validity of user input for delete command
+     * @param remainingInput user input substring after delete
+     * @throws DeleteUsageException if the input is invalid
+     */
+    private static void verifyDeleteInput(String remainingInput) throws DeleteUsageException {
         if (remainingInput.equals("delete") || remainingInput.isEmpty()) {
             throw new DeleteUsageException();
         }
@@ -205,7 +260,6 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new DeleteUsageException();
         }
-        return taskList.deleteTask(Integer.parseInt(remainingInput));
     }
 
     /**
@@ -231,11 +285,29 @@ public class Parser {
     public static boolean isCorrectDateTimeFormat(String s) {
         final String yearMonthDayFormat = "\\d{4}-\\d{2}-\\d{2}";
         final String yearMonthDayTimeFormat = "\\d{4}-\\d{2}-\\d{2}-\\d{4}";
-        if (s.matches(yearMonthDayFormat) || s.matches(yearMonthDayTimeFormat)) {
+        if (s.matches(yearMonthDayFormat) || (s.matches(yearMonthDayTimeFormat))) {
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Checks if a dateTime string represents a valid date and time
+     * @param s dateTime string
+     * @throws InvalidDateTimeException if string does not represent a valid date and time
+     */
+    private static void checkDateTimeValidity(String s) throws InvalidDateTimeException {
+        try {
+            if (s.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                LocalDate.parse(s);
+            } else {
+                LocalDate.parse(s.substring(0, 10));
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+                LocalTime.parse(s.substring(11), timeFormatter);
+            }
+        } catch (java.time.format.DateTimeParseException e) {
+            throw new InvalidDateTimeException();
+        }
+    }
 }

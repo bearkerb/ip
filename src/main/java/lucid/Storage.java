@@ -238,9 +238,8 @@ public class Storage {
         if (args.length != 3) {
             throw new IncorrectDataFormatException();
         }
-        assert args.length == 3 : "todo data must have 3 parts";
-        String taskName = args[2].trim();
 
+        String taskName = args[2].trim();
         ToDo todo = new ToDo(taskName);
         if (args[1].trim().equals("DONE")) {
             todo.markAsComplete();
@@ -257,25 +256,33 @@ public class Storage {
         if (args.length != 4) {
             throw new IncorrectDataFormatException();
         }
-        assert args.length == 4 : "deadline data must have 4 parts";
-
         String taskName = args[2].trim();
         String due = args[3].trim();
+        Deadline deadline = createDeadline(taskName, due);
 
+        if (args[1].trim().equals("DONE")) {
+            deadline.markAsComplete();
+        }
+        return deadline;
+    }
+
+    /**
+     * Creates a deadline, calling constructor depending on if due includes time representation
+     * @param name of deadline
+     * @param due when the deadline is due
+     * @return Deadline object created using information from name and due
+     */
+    private static Deadline createDeadline(String name, String due) {
         Deadline deadline;
         try {
             String[] dateTime = Parser.parseDateTimeString(due);
             if (dateTime[1] == null) {
-                deadline = new Deadline(taskName, dateTime[0]);
+                deadline = new Deadline(name, dateTime[0]);
             } else {
-                deadline = new Deadline(taskName, dateTime[0], dateTime[1]);
+                deadline = new Deadline(name, dateTime[0], dateTime[1]);
             }
         } catch (DateTimeParseException e) {
             throw new RuntimeException(e);
-        }
-
-        if (args[1].trim().equals("DONE")) {
-            deadline.markAsComplete();
         }
         return deadline;
     }
